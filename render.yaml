@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: barangay-concepcion-portal
+    runtime: node
+    plan: free
+    region: singapore
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DB_CLIENT
+        value: firestore
+      - key: FIREBASE_PROJECT_ID
+        value: brgy-concepcion-valencia
+      - key: FIREBASE_WEB_API_KEY
+        value: AIzaSyDYRXWvM5LJPcHJiWu7K1FlCJnVJ4aYbRs
+      - key: FIREBASE_AUTH_DOMAIN
+        value: brgy-concepcion-valencia.firebaseapp.com
+      - key: RESEND_API_KEY
+        sync: false
+      - key: RESEND_FROM_EMAIL
+        value: Barangay Concepcion <onboarding@resend.dev>
+      - key: FIREBASE_SERVICE_ACCOUNT_KEY
+        sync: false
+      - key: JWT_SECRET
+        value: barangay_concepcion_valencia_secure_jwt_token_2026_xyz
