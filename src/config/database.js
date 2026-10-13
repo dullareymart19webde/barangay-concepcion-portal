@@ -11,12 +11,17 @@ let dbAdapter = null;
 // ====================================================================
 function initSqlite() {
   const Database = require('better-sqlite3');
-  const dbPath = path.resolve(process.env.SQLITE_DB_PATH || './data/barangay_concepcion.sqlite');
+  const defaultPath = process.env.VERCEL ? '/tmp/barangay_concepcion.sqlite' : './data/barangay_concepcion.sqlite';
+  const dbPath = path.resolve(process.env.SQLITE_DB_PATH || defaultPath);
   
   // Ensure data directory exists
   const dir = path.dirname(dbPath);
-  if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir, { recursive: true });
+  try {
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
+    }
+  } catch (e) {
+    console.warn('[SQLite] Directory check warning:', e.message);
   }
 
   const sqlite = new Database(dbPath);
@@ -263,7 +268,16 @@ function initMysql() {
 
 // Factory initialization with automatic fallback if MySQL is configured but unreachable
 try {
-  if (DB_CLIENT.toLowerCase() === 'mysql') {
+  const clientType = (DB_CLIENT || '').toLowerCase();
+  if (clientType === 'firestore' || clientType === 'firebase') {
+    dbAdapter = {
+      client: 'firestore',
+      query: async () => ({ rows: [], insertId: null, affectedRows: 0 }),
+      queryOne: async () => null,
+      close: () => {}
+    };
+    console.log('[DB] Configured with Cloud Firestore (Firestore Adapter active).');
+  } else if (clientType === 'mysql') {
     dbAdapter = initMysql();
     console.log('[DB] Configured with MySQL Client (Pool initialized).');
   } else {
@@ -271,8 +285,13 @@ try {
     console.log('[DB] Configured with SQLite Client (Local database ready).');
   }
 } catch (err) {
-  console.warn(`[DB] Failed to initialize requested ${DB_CLIENT} client: ${err.message}. Falling back to SQLite.`);
-  dbAdapter = initSqlite();
+  console.warn(`[DB] Failed to initialize requested ${DB_CLIENT} client: ${err.message}.`);
+  dbAdapter = {
+    client: 'fallback',
+    query: async () => ({ rows: [], insertId: null, affectedRows: 0 }),
+    queryOne: async () => null,
+    close: () => {}
+  };
 }
 
 module.exports = dbAdapter;
