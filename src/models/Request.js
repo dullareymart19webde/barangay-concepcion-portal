@@ -25,6 +25,7 @@ class Request {
       civilStatus,
       gender,
       contactNumber,
+      email = null,
       purpose,
       yearsOfResidency = 1,
       cedulaNo = null,
@@ -35,9 +36,9 @@ class Request {
     const result = await db.query(
       `INSERT INTO requests (
         control_number, cert_type, first_name, middle_name, last_name, suffix,
-        purok, birth_date, civil_status, gender, contact_number, purpose,
+        purok, birth_date, civil_status, gender, contact_number, email, purpose,
         years_of_residency, cedula_no, valid_id_path, status, admin_remarks
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'Pending Review', ?)`,
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'Pending Review', ?)`,
       [
         controlNumber,
         certType,
@@ -50,6 +51,7 @@ class Request {
         civilStatus,
         gender,
         contactNumber.trim(),
+        email ? String(email).trim().toLowerCase() : null,
         purpose.trim(),
         Number(yearsOfResidency) || 1,
         cedulaNo ? cedulaNo.trim() : null,
@@ -128,8 +130,8 @@ class Request {
 
     if (search && search.trim()) {
       const term = `%${search.trim()}%`;
-      conditions.push('(control_number LIKE ? OR first_name LIKE ? OR last_name LIKE ? OR contact_number LIKE ? OR purpose LIKE ?)');
-      params.push(term, term, term, term, term);
+      conditions.push('(control_number LIKE ? OR first_name LIKE ? OR last_name LIKE ? OR contact_number LIKE ? OR email LIKE ? OR purpose LIKE ?)');
+      params.push(term, term, term, term, term, term);
     }
 
     if (dateFrom) {

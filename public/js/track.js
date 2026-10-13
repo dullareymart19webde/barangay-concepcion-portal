@@ -32,6 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const resCertType = document.getElementById('resCertType');
   const resPurok = document.getElementById('resPurok');
   const resContact = document.getElementById('resContact');
+  const resEmail = document.getElementById('resEmail');
   const resPurpose = document.getElementById('resPurpose');
   const resRemarks = document.getElementById('resRemarks');
   const auditTimelineList = document.getElementById('auditTimelineList');
@@ -113,6 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
     resCertType.textContent = info.certType;
     resPurok.textContent = `${info.purok}, Barangay Concepcion, Valencia City`;
     resContact.textContent = info.contactNumber;
+    if (resEmail) resEmail.textContent = info.email || 'None Provided';
     resPurpose.textContent = info.purpose;
     resRemarks.textContent = info.adminRemarks || 'No additional remarks provided.';
 

@@ -205,6 +205,7 @@ class RequestController {
           fullName: `${request.first_name} ${request.middle_name ? request.middle_name + ' ' : ''}${request.last_name}${request.suffix ? ' ' + request.suffix : ''}`.trim(),
           purok: request.purok,
           contactNumber: request.contact_number,
+          email: request.email || null,
           purpose: request.purpose,
           status: request.status,
           currentStage,

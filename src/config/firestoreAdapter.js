@@ -136,6 +136,7 @@ class FirestoreAdapter {
         (d.first_name && d.first_name.toLowerCase().includes(term)) ||
         (d.last_name && d.last_name.toLowerCase().includes(term)) ||
         (d.contact_number && d.contact_number.includes(term)) ||
+        (d.email && d.email.toLowerCase().includes(term)) ||
         (d.purpose && d.purpose.toLowerCase().includes(term))
       );
     }

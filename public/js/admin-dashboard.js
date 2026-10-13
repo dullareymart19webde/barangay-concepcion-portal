@@ -514,7 +514,13 @@ async function loadRequests() {
             <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-slate-400 group-hover:text-phblue"></i>
           </a>
         </td>
-        <td class="px-6 py-4 font-bold text-slate-900 whitespace-nowrap">${applicantName}</td>
+        <td class="px-6 py-4 whitespace-nowrap">
+          <div class="font-bold text-slate-900">${applicantName}</div>
+          <div class="text-[11px] text-slate-500 font-normal flex items-center gap-1 mt-0.5">
+            <i class="fa-solid fa-envelope text-[10px] text-phblue"></i>
+            <span class="truncate max-w-[160px]">${req.email || 'None Provided'}</span>
+          </div>
+        </td>
         <td class="px-6 py-4 whitespace-nowrap">
           <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-[11px] font-bold ${certBadge}">
             <i class="fa-solid ${certIcon} text-[10px]"></i>
@@ -563,7 +569,8 @@ async function loadRequests() {
           req.admin_remarks || '',
           req.contact_number,
           applicantName,
-          req.cert_type
+          req.cert_type,
+          req.email
         );
       });
       tr.querySelector('.btn-action-sms').addEventListener('click', () => {
@@ -634,7 +641,8 @@ window.openViewModal = async (id) => {
           req.admin_remarks || '',
           req.contact_number,
           applicantName,
-          req.cert_type
+          req.cert_type,
+          req.email
         );
       };
     }
@@ -693,7 +701,7 @@ window.closeViewModal = () => {
 };
 
 // 2. Status Modal
-window.openStatusModal = (id, controlNo, currentStatus, currentRemarks, contact, name, certType) => {
+window.openStatusModal = (id, controlNo, currentStatus, currentRemarks, contact, name, certType, email = '') => {
   document.getElementById('statusUpdateReqId').value = id;
   document.getElementById('statusModalControlNo').textContent = controlNo;
   document.getElementById('statusUpdateReqPhone').value = contact;
@@ -701,6 +709,11 @@ window.openStatusModal = (id, controlNo, currentStatus, currentRemarks, contact,
   document.getElementById('statusUpdateReqCert').value = certType;
   document.getElementById('newStatusSelect').value = currentStatus;
   document.getElementById('statusRemarks').value = currentRemarks || '';
+
+  const emailDisplay = document.getElementById('statusModalEmailDisplay');
+  if (emailDisplay) {
+    emailDisplay.textContent = email || 'No email registered';
+  }
 
   // Trigger preview update
   document.getElementById('newStatusSelect').dispatchEvent(new Event('change'));

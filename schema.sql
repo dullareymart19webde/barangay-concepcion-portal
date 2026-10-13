@@ -43,6 +43,7 @@ CREATE TABLE IF NOT EXISTS requests (
     civil_status ENUM('Single', 'Married', 'Widowed', 'Separated', 'Divorced') NOT NULL,
     gender ENUM('Male', 'Female', 'Other') NOT NULL,
     contact_number VARCHAR(20) NOT NULL,
+    email VARCHAR(255) NULL,
     purpose VARCHAR(255) NOT NULL,
     years_of_residency INT NOT NULL DEFAULT 1,
     cedula_no VARCHAR(50) NULL,

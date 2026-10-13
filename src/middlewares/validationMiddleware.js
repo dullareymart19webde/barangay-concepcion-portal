@@ -68,11 +68,13 @@ function validateRequestApplication(req, res, next) {
     errors.push('A valid 11-digit Philippine mobile number is required (e.g., 09XXXXXXXXX or +639XXXXXXXXX).');
   }
 
-  // 4. Email Validation (if provided)
-  if (body.email && body.email.trim()) {
+  // 4. Email Validation (Required for Resend official receipts & status updates)
+  if (!body.email || !body.email.trim()) {
+    errors.push('A valid email address is required so you can receive status updates and digital receipts via Resend.');
+  } else {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(body.email.trim())) {
-      errors.push('Please provide a valid email address.');
+      errors.push('Please provide a valid email address (e.g. resident@gmail.com).');
     }
   }
 
@@ -103,7 +105,7 @@ function validateRequestApplication(req, res, next) {
   req.body.purok = sanitizeInput(body.purok);
   req.body.purpose = sanitizeInput(body.purpose);
   req.body.cedulaNo = sanitizeInput(body.cedulaNo || '');
-  req.body.email = sanitizeInput(body.email || '');
+  req.body.email = sanitizeInput(body.email || '').toLowerCase();
 
   next();
 }

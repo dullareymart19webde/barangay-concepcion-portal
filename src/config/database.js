@@ -85,6 +85,7 @@ function bootstrapSqliteSchema(sqlite) {
       civil_status TEXT NOT NULL,
       gender TEXT NOT NULL,
       contact_number TEXT NOT NULL,
+      email TEXT,
       purpose TEXT NOT NULL,
       years_of_residency INTEGER NOT NULL DEFAULT 1,
       cedula_no TEXT,
@@ -121,6 +122,17 @@ function bootstrapSqliteSchema(sqlite) {
     CREATE INDEX IF NOT EXISTS idx_requests_status ON requests(status);
     CREATE INDEX IF NOT EXISTS idx_requests_contact ON requests(contact_number);
   `);
+
+  // Ensure 'email' column exists for existing SQLite databases
+  try {
+    const tableInfo = sqlite.prepare('PRAGMA table_info(requests)').all();
+    const hasEmail = tableInfo.some(col => col.name === 'email');
+    if (!hasEmail) {
+      sqlite.exec('ALTER TABLE requests ADD COLUMN email TEXT;');
+    }
+  } catch (err) {
+    // Migration fallback
+  }
 
   // Seed default admin accounts if table is empty
   const adminCount = sqlite.prepare('SELECT COUNT(*) AS count FROM admins').get().count;

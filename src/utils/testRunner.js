@@ -68,6 +68,7 @@ async function runTests() {
       civilStatus: 'Single',
       gender: 'Female',
       contactNumber: '09179998877',
+      email: 'maricar.montenegro@gmail.com',
       purpose: 'Job Application at Bukidnon Agro Ventures',
       yearsOfResidency: 6,
       cedulaNo: 'CCI2026-778899',
@@ -87,6 +88,7 @@ async function runTests() {
     const trackRes = await request({ path: `/api/track/${testControlNo}`, method: 'GET' });
     assert(trackRes.status === 200, 'GET /api/track/:controlNumber returns 200 OK');
     assert(trackRes.body.data.status === 'Pending Review', 'Initial status is Pending Review');
+    assert(trackRes.body.data.email === 'maricar.montenegro@gmail.com', 'Applicant email address saved and returned in tracking');
     assert(trackRes.body.data.currentStage === 1, 'Current stage is 1 (Submitted/Pending)');
     assert(trackRes.body.data.timeline.length >= 1, 'Audit timeline has initial entry');
 
