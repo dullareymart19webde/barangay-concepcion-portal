@@ -1,0 +1,152 @@
+/* ==========================================================================
+   Barangay E-Certificate Portal - Custom Styles & Print Stylesheet
+   Location: Barangay Concepcion, Valencia City, Bukidnon
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Inter:wght@300;400;500;600;700;800&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&display=swap');
+
+:root {
+  --ph-blue: #0038A8;
+  --ph-red: #CE1126;
+  --ph-gold: #FCD116;
+  --brgy-dark: #0F172A;
+  --brgy-green: #15803D;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: #1e293b;
+  background-color: #f8fafc;
+}
+
+.font-cinzel {
+  font-family: 'Cinzel', serif;
+}
+
+.font-serif-official {
+  font-family: 'Source Serif 4', 'Merriweather', Georgia, serif;
+}
+
+/* Philippine flag gradient accent ribbon */
+.ph-flag-accent {
+  background: linear-gradient(90deg, #0038A8 0%, #0038A8 48%, #FCD116 48%, #FCD116 52%, #CE1126 52%, #CE1126 100%);
+  height: 4px;
+}
+
+/* Glassmorphism accents */
+.glass-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Certificate Watermark */
+.certificate-watermark {
+  background-image: url('../images/brgy-logo.png');
+  background-position: center 52%;
+  background-repeat: no-repeat;
+  background-size: 420px;
+}
+
+/* Dry Seal circle simulation */
+.dry-seal-placeholder {
+  width: 110px;
+  height: 110px;
+  border: 2px dashed #94a3b8;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 10px;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+  padding: 8px;
+}
+
+/* Thumbmark Box */
+.thumbmark-box {
+  width: 100px;
+  height: 110px;
+  border: 1.5px solid #475569;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  font-size: 9px;
+  text-transform: uppercase;
+  color: #64748b;
+  font-weight: 600;
+  padding-bottom: 4px;
+}
+
+/* ==========================================================================
+   PRINT MEDIA STYLESHEET (Official Philippine Barangay Certificate A4 Print)
+   ========================================================================== */
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 10mm 12mm 10mm 12mm;
+  }
+
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    font-size: 11pt !important;
+  }
+
+  .no-print,
+  .no-print * {
+    display: none !important;
+  }
+
+  .certificate-page {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    background: #ffffff !important;
+    page-break-after: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  .certificate-border {
+    border: 3px double #1e3a8a !important;
+    padding: 16px !important;
+  }
+
+  .certificate-watermark {
+    background-image: url('../images/brgy-logo.png') !important;
+    opacity: 0.08 !important;
+  }
+
+  /* Force print background images and colors */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}
+

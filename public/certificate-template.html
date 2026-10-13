@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Official Barangay Certificate | Barangay Concepcion, Valencia City</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="/css/custom.css">
+</head>
+<body class="bg-slate-200 text-slate-900 min-h-screen py-8">
+
+  <!-- Floating Print Action Toolbar (Hidden during print) -->
+  <div class="no-print max-w-4xl mx-auto mb-6 px-4 flex items-center justify-between bg-white p-4 rounded-2xl shadow-lg border border-slate-300">
+    <div class="flex items-center space-x-3">
+      <div class="w-9 h-9 rounded-xl bg-blue-100 text-phblue flex items-center justify-center font-bold">
+        <i class="fa-solid fa-print"></i>
+      </div>
+      <div>
+        <div class="text-xs font-bold text-slate-800">Official Certificate Print & PDF Export</div>
+        <div class="text-[11px] text-slate-500">Configured for standard A4 Portrait paper format</div>
+      </div>
+    </div>
+
+    <div class="flex items-center space-x-3">
+      <a href="/admin/dashboard" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl transition-colors">
+        <i class="fa-solid fa-arrow-left mr-1"></i> Back to Dashboard
+      </a>
+      <button type="button" onclick="window.print()" class="px-6 py-2 bg-phblue hover:bg-blue-800 text-white font-bold text-xs rounded-xl shadow-md transition-all flex items-center space-x-2">
+        <i class="fa-solid fa-print"></i>
+        <span>Print Document (Ctrl + P)</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- A4 Certificate Sheet Container -->
+  <div class="max-w-[210mm] mx-auto bg-white shadow-2xl p-8 sm:p-12 border border-slate-300 relative certificate-page min-h-[297mm]">
+    
+    <!-- Outer Double Border (Official Philippine Style) -->
+    <div class="certificate-border border-4 border-double border-blue-950 p-6 min-h-[270mm] flex flex-col justify-between relative overflow-hidden">
+      
+      <!-- Translucent Watermark Overlay -->
+      <div class="absolute inset-0 pointer-events-none opacity-8 certificate-watermark z-0"></div>
+
+      <div class="relative z-10 flex-grow">
+        
+        <!-- ============================================================== -->
+        <!-- OFFICIAL HEADER: Republic of the Philippines -->
+        <!-- ============================================================== -->
+        <header class="flex items-center justify-between border-b-2 border-blue-950 pb-4 mb-6">
+          <!-- City Logo -->
+          <img src="/images/valencia-logo.png" alt="Valencia City Logo" class="w-20 h-20 object-contain drop-shadow-xs">
+          
+          <!-- Central Official Text -->
+          <div class="text-center">
+            <div class="text-[11px] font-semibold text-slate-600 uppercase tracking-widest leading-tight">Republic of the Philippines</div>
+            <div class="text-[12px] font-bold text-slate-700 uppercase tracking-wider leading-tight">Province of Bukidnon</div>
+            <div class="text-[13px] font-extrabold text-slate-800 uppercase tracking-wider leading-tight">City of Valencia</div>
+            <div class="text-xl font-black text-blue-950 tracking-wider uppercase font-cinzel mt-1">BARANGAY CONCEPCION</div>
+            <div class="text-xs font-bold text-red-700 uppercase tracking-widest mt-1">Office of the Punong Barangay</div>
+          </div>
+
+          <!-- Barangay Logo -->
+          <img src="/images/brgy-logo.png" alt="Barangay Concepcion Logo" class="w-20 h-20 object-contain drop-shadow-xs">
+        </header>
+
+        <!-- ============================================================== -->
+        <!-- MAIN CONTENT AREA: TWO COLUMNS (Council Sidebar & Certification Body) -->
+        <!-- ============================================================== -->
+        <div class="grid grid-cols-12 gap-6 mt-4">
+          
+          <!-- Left Column (3.5 cols): Sangguniang Barangay Council Directory -->
+          <aside class="col-span-4 border-r-2 border-blue-950 pr-4 text-center space-y-3 font-serif-official">
+            <div class="bg-blue-950 text-white py-1 px-2 text-[10px] uppercase font-bold tracking-wider font-cinzel rounded-xs">
+              Barangay Council
+            </div>
+
+            <div class="space-y-0.5">
+              <div class="text-[11px] font-bold text-blue-950 leading-tight">HON. MERLYN G. ANTIGA</div>
+              <div class="text-[9px] uppercase text-slate-500 font-sans font-semibold">Punong Barangay</div>
+            </div>
+
+            <div class="border-t border-slate-300 pt-2 space-y-2">
+              <div class="text-[10px] font-bold uppercase tracking-wider text-slate-400 font-sans">Sangguniang Barangay Members</div>
+
+              <div class="space-y-0.5">
+                <div class="text-[10px] font-bold text-slate-900 leading-tight">HON. ANGELA B. PRIMOR</div>
+                <div class="text-[8.5px] text-slate-500 font-sans">Barangay Kagawad</div>
+              </div>
+
+              <div class="space-y-0.5">
+                <div class="text-[10px] font-bold text-slate-900 leading-tight">HON. PELAGIO C. MONTEMOR</div>
+                <div class="text-[8.5px] text-slate-500 font-sans">Barangay Kagawad</div>
+              </div>
+
+              <div class="space-y-0.5">
+                <div class="text-[10px] font-bold text-slate-900 leading-tight">HON. IRENEO S. SOMBILON, JR.</div>
+                <div class="text-[8.5px] text-slate-500 font-sans">Barangay Kagawad</div>
+              </div>
+
+              <div class="space-y-0.5">
+                <div class="text-[10px] font-bold text-slate-900 leading-tight">HON. ALEXANDER S. JARAPAN</div>
+                <div class="text-[8.5px] text-slate-500 font-sans">Barangay Kagawad</div>
+              </div>
+
+              <div class="space-y-0.5">
+                <div class="text-[10px] font-bold text-slate-900 leading-tight">HON. RUBEN A. AGAL</div>
+                <div class="text-[8.5px] text-slate-500 font-sans">Barangay Kagawad</div>
+              </div>
+
+              <div class="space-y-0.5">
+                <div class="text-[10px] font-bold text-slate-900 leading-tight">HON. LUZVIMINDA P. SANTILLAN</div>
+                <div class="text-[8.5px] text-slate-500 font-sans">Barangay Kagawad</div>
+              </div>
+
+              <div class="space-y-0.5">
+                <div class="text-[10px] font-bold text-slate-900 leading-tight">HON. MACRINA E. BANDOS</div>
+                <div class="text-[8.5px] text-slate-500 font-sans">Barangay Kagawad</div>
+              </div>
+            </div>
+
+            <div class="border-t border-slate-300 pt-2 space-y-2">
+              <div class="space-y-0.5">
+                <div class="text-[10px] font-bold text-slate-900 leading-tight">HON. JOHN LLOYD S. SANCHEZ</div>
+                <div class="text-[8.5px] text-slate-500 font-sans font-semibold">SK Chairperson</div>
+              </div>
+
+              <div class="space-y-0.5">
+                <div class="text-[10px] font-bold text-slate-900 leading-tight">HON. VIRGILIO S. SAMBAHAY</div>
+                <div class="text-[8.5px] text-slate-500 font-sans font-semibold">IPMR Representative</div>
+              </div>
+
+              <div class="space-y-0.5">
+                <div class="text-[10px] font-bold text-slate-900 leading-tight">HON. REDIN T. BUTANAS</div>
+                <div class="text-[8.5px] text-slate-500 font-sans font-semibold">Barangay Secretary</div>
+              </div>
+            </div>
+
+            <!-- Dry Seal Embossed Circular Placement -->
+            <div class="pt-4 flex justify-center">
+              <div class="dry-seal-placeholder">
+                <i class="fa-solid fa-stamp text-slate-400 text-lg mb-1"></i>
+                Official Dry Seal
+              </div>
+            </div>
+          </aside>
+
+          <!-- Right Column (8.5 cols): Certificate Title & Legal Phrasing -->
+          <section class="col-span-8 pl-2 flex flex-col justify-between">
+            
+            <div>
+              <!-- Certificate Title -->
+              <div class="text-center my-4">
+                <h2 id="certTitle" class="text-2xl font-black uppercase tracking-wider text-blue-950 font-cinzel underline underline-offset-8 decoration-2">
+                  BARANGAY CLEARANCE
+                </h2>
+                <div class="text-[10px] font-mono text-slate-500 mt-2 font-bold">
+                  Control No: <span id="certControlNo" class="text-phblue">BC-XXXXXXXX-XXXX</span>
+                </div>
+              </div>
+
+              <!-- Salutation -->
+              <div class="text-xs font-bold uppercase tracking-wider text-slate-800 font-serif-official mb-4 mt-6">
+                TO WHOM IT MAY CONCERN:
+              </div>
+
+              <!-- Main Dynamic Body Paragraphs -->
+              <div id="certBodyContent" class="text-[13px] leading-relaxed text-justify space-y-4 font-serif-official text-slate-800">
+                <!-- Dynamically loaded based on cert_type -->
+              </div>
+
+              <!-- Legal Issuance Closing Statement -->
+              <div class="text-[13px] leading-relaxed text-justify font-serif-official text-slate-800 mt-6 indent-8">
+                Issued this <strong id="certDay">--</strong> day of <strong id="certMonth">--</strong>, <strong id="certYear">2026</strong> at the Office of the Punong Barangay, Barangay Concepcion, Valencia City, Bukidnon, Philippines.
+              </div>
+            </div>
+
+            <!-- Signatures Section -->
+            <div class="mt-8 pt-4">
+              
+              <!-- Bottom Row: Specimen / Thumbmark on Left, Punong Barangay on Right -->
+              <div class="grid grid-cols-2 gap-4 items-end">
+                
+                <!-- Left: Thumbmark & Specimen Signature -->
+                <div class="space-y-4">
+                  <div class="thumbmark-box">
+                    Right Thumbmark
+                  </div>
+
+                  <div class="pt-4">
+                    <div class="w-44 border-b border-slate-900 pb-0.5 text-center"></div>
+                    <div class="text-[10px] uppercase font-bold text-slate-700 tracking-wider">Applicant's Signature</div>
+                  </div>
+                </div>
+
+                <!-- Right: Punong Barangay & Secretary Attestation -->
+                <div class="text-center space-y-8">
+                  <div>
+                    <div class="text-[10px] uppercase text-slate-500 mb-6 font-semibold">Attested by:</div>
+                    <div class="font-bold text-xs text-slate-900 underline uppercase tracking-wide">HON. REDIN T. BUTANAS</div>
+                    <div class="text-[10px] text-slate-600">Barangay Secretary</div>
+                  </div>
+
+                  <div>
+                    <div class="text-[10px] uppercase text-slate-500 mb-6 font-semibold">Approved & Issued by:</div>
+                    <div class="font-extrabold text-sm text-blue-950 underline uppercase tracking-wider">HON. MERLYN G. ANTIGA</div>
+                    <div class="text-[11px] font-bold text-slate-700 uppercase">Punong Barangay</div>
+                  </div>
+                </div>
+
+              </div>
+
+              <!-- Footer Metadata (CTC, Date, Official Document Note) -->
+              <div class="mt-6 pt-3 border-t border-slate-300 grid grid-cols-3 text-[9px] text-slate-500 font-mono">
+                <div>CTC No: <span id="certCedula" class="font-bold text-slate-700">None Provided</span></div>
+                <div class="text-center">Issued At: Concepcion, Valencia City</div>
+                <div class="text-right">Validity: 6 Months from issuance</div>
+              </div>
+
+            </div>
+
+          </section>
+
+        </div>
+
+      </div>
+
+      <!-- Watermark Note on bottom of sheet -->
+      <div class="relative z-10 text-center text-[8px] uppercase tracking-widest text-slate-400 border-t border-slate-200 pt-1 mt-2">
+        Official Document • Barangay Concepcion, Valencia City, Bukidnon • Valid without seal if authenticated via QR code
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      // Extract controlNumber from URL path or query parameter
+      let controlNumber = '';
+      const pathParts = window.location.pathname.split('/');
+      const lastPart = pathParts[pathParts.length - 1];
+      
+      if (lastPart && lastPart.startsWith('BC-')) {
+        controlNumber = lastPart;
+      } else {
+        const urlParams = new URLSearchParams(window.location.search);
+        controlNumber = urlParams.get('controlNumber') || urlParams.get('ref') || '';
+      }
+
+      if (!controlNumber) {
+        document.getElementById('certBodyContent').innerHTML = `
+          <div class="p-6 bg-amber-50 text-amber-800 border border-amber-200 rounded-xl text-xs text-center font-semibold">
+            Please specify a valid Control Number (e.g. <code>?ref=BC-YYYYMMDD-XXXX</code>) to generate this certificate.
+          </div>
+        `;
+        return;
+      }
+
+      try {
+        const res = await fetch(`/api/requests/${encodeURIComponent(controlNumber)}`);
+        if (!res.ok) throw new Error('Request not found');
+
+        const json = await res.json();
+        const data = json.data;
+
+        renderCertificate(data);
+      } catch (err) {
+        console.error('Failed to load certificate:', err);
+        document.getElementById('certBodyContent').innerHTML = `
+          <div class="p-4 bg-red-50 text-red-700 rounded-lg text-xs">
+            Error loading certificate data for Control Number "${controlNumber}".
+          </div>
+        `;
+      }
+    });
+
+    function renderCertificate(data) {
+      document.getElementById('certControlNo').textContent = data.control_number;
+      document.getElementById('certTitle').textContent = data.cert_type.toUpperCase();
+      document.getElementById('certCedula').textContent = data.cedula_no || 'N/A (Exempted / Pending)';
+
+      const fullName = `${data.first_name} ${data.middle_name ? data.middle_name + ' ' : ''}${data.last_name}${data.suffix ? ' ' + data.suffix : ''}`.toUpperCase();
+      const purok = data.purok;
+      const purpose = data.purpose;
+      const residencyYears = data.years_of_residency || 1;
+      const civilStatus = data.civil_status;
+
+      // Legal Date Phrasing (e.g. 14th day of October, 2026)
+      const now = new Date();
+      const day = now.getDate();
+      const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+      const month = monthNames[now.getMonth()];
+      const year = now.getFullYear();
+
+      // Ordinal suffix (1st, 2nd, 3rd, 4th)
+      const j = day % 10, k = day % 100;
+      let suffix = "th";
+      if (j == 1 && k != 11) suffix = "st";
+      else if (j == 2 && k != 12) suffix = "nd";
+      else if (j == 3 && k != 13) suffix = "rd";
+
+      document.getElementById('certDay').textContent = `${day}${suffix}`;
+      document.getElementById('certMonth').textContent = month;
+      document.getElementById('certYear').textContent = year;
+
+      const bodyContainer = document.getElementById('certBodyContent');
+
+      // Specific Standard Philippine Legal Phrasing for each document type
+      if (data.cert_type === 'Barangay Clearance') {
+        bodyContainer.innerHTML = `
+          <p class="indent-8">
+            THIS IS TO CERTIFY that <strong class="text-blue-950 font-bold underline">${fullName}</strong>, of legal age, <strong>${civilStatus}</strong>, Filipino, is a bona fide resident of <strong>${purok}</strong>, Barangay Concepcion, Valencia City, Bukidnon.
+          </p>
+          <p class="indent-8">
+            RECORD SHOWS that the above-named person has been residing in this barangay for <strong>${residencyYears} year(s)</strong>, possesses good moral character, is a law-abiding citizen, and has <strong>NO DEROGATORY RECORD</strong> nor pending criminal or civil case filed against him/her before the Lupong Tagapamayapa of this Barangay.
+          </p>
+          <p class="indent-8">
+            THIS CLEARANCE is issued upon the request of the aforementioned individual for the purpose of: <strong class="underline">${purpose}</strong>, and for whatever legal intent and purpose it may serve.
+          </p>
+        `;
+      } else if (data.cert_type === 'Certificate of Residency') {
+        bodyContainer.innerHTML = `
+          <p class="indent-8">
+            THIS IS TO CERTIFY that <strong class="text-blue-950 font-bold underline">${fullName}</strong>, of legal age, <strong>${civilStatus}</strong>, Filipino citizen, is an actual and bona fide resident of <strong>${purok}</strong>, Barangay Concepcion, Valencia City, Province of Bukidnon.
+          </p>
+          <p class="indent-8">
+            FURTHER CERTIFIES that based on the records and community census of this Barangay, the above-named person has been residing in this territorial jurisdiction for <strong>${residencyYears} consecutive year(s)</strong> up to the present date.
+          </p>
+          <p class="indent-8">
+            THIS CERTIFICATION is issued upon request of the interested party for the purpose of: <strong class="underline">${purpose}</strong>.
+          </p>
+        `;
+      } else if (data.cert_type === 'Certificate of Indigency') {
+        bodyContainer.innerHTML = `
+          <p class="indent-8">
+            THIS IS TO CERTIFY that <strong class="text-blue-950 font-bold underline">${fullName}</strong>, of legal age, <strong>${civilStatus}</strong>, Filipino citizen, is a bona fide resident of <strong>${purok}</strong>, Barangay Concepcion, Valencia City, Bukidnon.
+          </p>
+          <p class="indent-8">
+            THIS FURTHER CERTIFIES that the subject individual and his/her immediate family belong to the <strong>INDIGENT / LOW-INCOME BRACKET</strong> of this barangay, having no permanent source of regular income and incapable of meeting basic living expenditures without social welfare assistance.
+          </p>
+          <p class="indent-8">
+            THIS CERTIFICATION OF INDIGENCY is issued pursuant to the guidelines of the Department of Social Welfare and Development (DSWD) upon the request of the bearer for the purpose of: <strong class="underline">${purpose}</strong>.
+          </p>
+        `;
+      }
+    }
+  </script>
+</body>
+</html>
+

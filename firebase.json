@@ -1,0 +1,46 @@
+{
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  },
+  "auth": {
+    "providers": {
+      "emailPassword": true
+    }
+  },
+  "hosting": {
+    "public": "public",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "/track",
+        "destination": "/track.html"
+      },
+      {
+        "source": "/request",
+        "destination": "/request.html"
+      },
+      {
+        "source": "/admin",
+        "destination": "/admin-login.html"
+      },
+      {
+        "source": "/admin/login",
+        "destination": "/admin-login.html"
+      },
+      {
+        "source": "/admin/dashboard",
+        "destination": "/admin-dashboard.html"
+      },
+      {
+        "source": "/admin/print/**",
+        "destination": "/certificate-template.html"
+      }
+    ]
+  }
+}
+

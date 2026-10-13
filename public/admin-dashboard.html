@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard | Barangay Concepcion E-Certificate Portal</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            phblue: '#0038A8',
+            phred: '#CE1126',
+            phgold: '#FCD116',
+            brgygreen: '#15803D'
+          }
+        }
+      }
+    }
+  </script>
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="/css/custom.css">
+</head>
+<body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col">
+
+  <!-- Top Philippine Flag Accent Line -->
+  <div class="ph-flag-accent"></div>
+
+  <!-- Top Navigation Bar -->
+  <header class="bg-white border-b border-slate-200/80 sticky top-0 z-30 shadow-xs">
+    <div class="w-full max-w-[1720px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10">
+      <div class="flex items-center justify-between h-20">
+        
+        <!-- Left: Logo & Jurisdiction -->
+        <div class="flex items-center space-x-3.5">
+          <img src="/images/valencia-logo.png" alt="Valencia City Seal" class="w-11 h-11 object-contain drop-shadow-xs">
+          <img src="/images/brgy-logo.png" alt="Barangay Concepcion Seal" class="w-11 h-11 object-contain drop-shadow-xs">
+          <div>
+            <div class="text-[10px] uppercase font-bold tracking-wider text-slate-500 leading-tight">Valencia City • Bukidnon</div>
+            <div class="text-base sm:text-lg font-black text-phblue tracking-tight leading-tight">BARANGAY CONCEPCION</div>
+            <div class="text-xs font-semibold text-slate-600">Online E-Certificate Administrative Portal</div>
+          </div>
+        </div>
+
+        <!-- Center: Live Cloud System Badge (Visible on medium+ screens) -->
+        <div class="hidden md:flex items-center space-x-2 bg-emerald-50 text-emerald-800 border border-emerald-200/80 px-3.5 py-1.5 rounded-full text-xs font-semibold shadow-2xs">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span>Cloud Firestore Live • Barangay Concepcion</span>
+        </div>
+
+        <!-- Right: Current Admin Info & Actions -->
+        <div class="flex items-center space-x-3 sm:space-x-4">
+          <div class="hidden sm:flex items-center space-x-2.5 text-right">
+            <div>
+              <div id="adminFullName" class="text-xs font-extrabold text-slate-900">Hon. Redin T. Butanas</div>
+              <div id="adminRole" class="text-[10px] font-bold text-blue-700 bg-blue-50 px-2.5 py-0.5 rounded-full inline-block border border-blue-200">Barangay Secretary</div>
+            </div>
+            <div class="w-10 h-10 rounded-xl bg-phblue text-white flex items-center justify-center font-bold text-sm shadow-xs">
+              <i class="fa-solid fa-user-shield"></i>
+            </div>
+          </div>
+
+          <a href="/" target="_blank" class="text-xs font-semibold text-slate-600 hover:text-phblue px-3 py-2 rounded-xl border border-slate-200 hover:bg-slate-50 transition-colors hidden lg:inline-flex items-center gap-1.5">
+            <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i> Resident Portal
+          </a>
+
+          <button type="button" id="logoutBtn" class="text-xs font-bold text-red-600 hover:text-red-800 bg-red-50 hover:bg-red-100 px-3.5 py-2 rounded-xl border border-red-200 transition-colors flex items-center space-x-1.5">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <span>Logout</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- Navigation Tabs -->
+  <div class="bg-white border-b border-slate-200/80 shadow-2xs">
+    <div class="w-full max-w-[1720px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10">
+      <div class="flex space-x-6 sm:space-x-8 text-sm font-bold overflow-x-auto">
+        <button type="button" id="tabBtnOverview" class="tab-button border-b-2 border-phblue text-phblue py-4 px-2 flex items-center space-x-2 transition-colors whitespace-nowrap">
+          <i class="fa-solid fa-chart-pie text-base"></i>
+          <span>Dashboard Overview</span>
+        </button>
+
+        <button type="button" id="tabBtnRequests" class="tab-button border-b-2 border-transparent text-slate-500 hover:text-slate-800 py-4 px-2 flex items-center space-x-2 transition-colors whitespace-nowrap">
+          <i class="fa-solid fa-folder-open text-base"></i>
+          <span>Certificate Requests</span>
+          <span id="requestsCountBadge" class="bg-blue-100 text-phblue text-[11px] px-2.5 py-0.5 rounded-full font-extrabold ml-1">0</span>
+        </button>
+
+        <button type="button" id="tabBtnSms" class="tab-button border-b-2 border-transparent text-slate-500 hover:text-slate-800 py-4 px-2 flex items-center space-x-2 transition-colors whitespace-nowrap">
+          <i class="fa-solid fa-envelope-circle-check text-base"></i>
+          <span>Notification Logs</span>
+          <span class="bg-emerald-100 text-emerald-800 text-[10px] px-2 py-0.5 rounded-full font-bold ml-1">Resend & SMS</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content Container -->
+  <main class="w-full max-w-[1720px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 py-6 sm:py-8 flex-grow">
+    
+    <!-- ============================================================== -->
+    <!-- TAB 1: OVERVIEW & KPI METRICS -->
+    <!-- ============================================================== -->
+    <div id="tabContentOverview" class="space-y-6 sm:space-y-8">
+      
+      <!-- KPI Metric Cards Grid -->
+      <div class="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-6 gap-3 sm:gap-4 xl:gap-5">
+        
+        <!-- Total -->
+        <div class="bg-white rounded-2xl border border-slate-200/90 p-4 sm:p-5 shadow-xs hover:shadow-md transition-all duration-200 hover:-translate-y-0.5">
+          <div class="flex items-center justify-between text-slate-400 mb-2 sm:mb-3">
+            <span class="text-[11px] font-bold uppercase tracking-wider text-slate-500">Total Requests</span>
+            <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-slate-100 text-slate-600 flex items-center justify-center text-xs sm:text-sm">
+              <i class="fa-solid fa-layer-group"></i>
+            </div>
+          </div>
+          <div id="kpiTotal" class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">--</div>
+          <div class="text-[10px] sm:text-[11px] text-slate-500 mt-1 font-medium flex items-center">
+            <span class="w-1.5 h-1.5 rounded-full bg-slate-400 mr-1.5"></span>
+            All time applications
+          </div>
+        </div>
+
+        <!-- Pending Review -->
+        <div class="bg-white rounded-2xl border border-amber-200/90 p-4 sm:p-5 shadow-xs hover:shadow-md transition-all duration-200 hover:-translate-y-0.5 bg-gradient-to-b from-amber-50/40 to-white">
+          <div class="flex items-center justify-between text-amber-600 mb-2 sm:mb-3">
+            <span class="text-[11px] font-bold uppercase tracking-wider text-amber-800">Pending</span>
+            <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center text-xs sm:text-sm">
+              <i class="fa-solid fa-hourglass-half"></i>
+            </div>
+          </div>
+          <div id="kpiPending" class="text-2xl sm:text-3xl font-black text-amber-700 tracking-tight">--</div>
+          <div class="text-[10px] sm:text-[11px] text-amber-700 mt-1 font-medium flex items-center">
+            <span class="w-1.5 h-1.5 rounded-full bg-amber-500 mr-1.5"></span>
+            Requires initial review
+          </div>
+        </div>
+
+        <!-- Processing -->
+        <div class="bg-white rounded-2xl border border-blue-200/90 p-4 sm:p-5 shadow-xs hover:shadow-md transition-all duration-200 hover:-translate-y-0.5 bg-gradient-to-b from-blue-50/40 to-white">
+          <div class="flex items-center justify-between text-blue-600 mb-2 sm:mb-3">
+            <span class="text-[11px] font-bold uppercase tracking-wider text-phblue">Processing</span>
+            <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-blue-100 text-phblue flex items-center justify-center text-xs sm:text-sm">
+              <i class="fa-solid fa-spinner"></i>
+            </div>
+          </div>
+          <div id="kpiProcessing" class="text-2xl sm:text-3xl font-black text-phblue tracking-tight">--</div>
+          <div class="text-[10px] sm:text-[11px] text-blue-700 mt-1 font-medium flex items-center">
+            <span class="w-1.5 h-1.5 rounded-full bg-blue-500 mr-1.5"></span>
+            In verification / prep
+          </div>
+        </div>
+
+        <!-- Ready for Pickup -->
+        <div class="bg-white rounded-2xl border border-emerald-200/90 p-4 sm:p-5 shadow-xs hover:shadow-md transition-all duration-200 hover:-translate-y-0.5 bg-gradient-to-b from-emerald-50/40 to-white">
+          <div class="flex items-center justify-between text-emerald-600 mb-2 sm:mb-3">
+            <span class="text-[11px] font-bold uppercase tracking-wider text-emerald-800">Ready</span>
+            <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center text-xs sm:text-sm">
+              <i class="fa-solid fa-building-circle-check"></i>
+            </div>
+          </div>
+          <div id="kpiReady" class="text-2xl sm:text-3xl font-black text-emerald-700 tracking-tight">--</div>
+          <div class="text-[10px] sm:text-[11px] text-emerald-700 mt-1 font-medium flex items-center">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5"></span>
+            Ready at Barangay Hall
+          </div>
+        </div>
+
+        <!-- Released -->
+        <div class="bg-white rounded-2xl border border-indigo-200/90 p-4 sm:p-5 shadow-xs hover:shadow-md transition-all duration-200 hover:-translate-y-0.5 bg-gradient-to-b from-indigo-50/40 to-white">
+          <div class="flex items-center justify-between text-indigo-600 mb-2 sm:mb-3">
+            <span class="text-[11px] font-bold uppercase tracking-wider text-indigo-800">Released</span>
+            <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-indigo-100 text-indigo-700 flex items-center justify-center text-xs sm:text-sm">
+              <i class="fa-solid fa-circle-check"></i>
+            </div>
+          </div>
+          <div id="kpiReleased" class="text-2xl sm:text-3xl font-black text-indigo-700 tracking-tight">--</div>
+          <div class="text-[10px] sm:text-[11px] text-indigo-700 mt-1 font-medium flex items-center">
+            <span class="w-1.5 h-1.5 rounded-full bg-indigo-500 mr-1.5"></span>
+            Claimed & finalized
+          </div>
+        </div>
+
+        <!-- Today's Total -->
+        <div class="bg-white rounded-2xl border border-purple-200/90 p-4 sm:p-5 shadow-xs hover:shadow-md transition-all duration-200 hover:-translate-y-0.5 bg-gradient-to-b from-purple-50/40 to-white">
+          <div class="flex items-center justify-between text-purple-600 mb-2 sm:mb-3">
+            <span class="text-[11px] font-bold uppercase tracking-wider text-purple-800">Filed Today</span>
+            <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center text-xs sm:text-sm">
+              <i class="fa-solid fa-calendar-day"></i>
+            </div>
+          </div>
+          <div id="kpiToday" class="text-2xl sm:text-3xl font-black text-purple-700 tracking-tight">--</div>
+          <div class="text-[10px] sm:text-[11px] text-purple-700 mt-1 font-medium flex items-center">
+            <span class="w-1.5 h-1.5 rounded-full bg-purple-500 mr-1.5"></span>
+            Submitted today
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Charts & Visual Analytics Section -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 xl:gap-8 items-stretch">
+        
+        <!-- Left: Distribution by Certificate Type Chart -->
+        <div class="lg:col-span-7 xl:col-span-7 bg-white rounded-3xl border border-slate-200/90 p-6 sm:p-8 shadow-xs flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4 pb-4 border-b border-slate-100">
+              <div>
+                <h3 class="font-black text-base sm:text-lg text-slate-900 flex items-center gap-2">
+                  <i class="fa-solid fa-chart-column text-phblue"></i>
+                  Certificate Volume Distribution
+                </h3>
+                <p class="text-xs text-slate-500 mt-0.5">Total online applications categorized by official document type</p>
+              </div>
+              <span class="text-xs font-bold text-phblue bg-blue-50 border border-blue-100 px-3 py-1 rounded-xl">
+                Barangay Concepcion
+              </span>
+            </div>
+            <div class="h-80 sm:h-96 relative flex items-center justify-center pt-2">
+              <canvas id="certChart"></canvas>
+            </div>
+          </div>
+          <div class="pt-4 mt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+            <span class="flex items-center gap-1.5 font-medium">
+              <i class="fa-solid fa-circle-check text-emerald-500"></i>
+              Live Firestore count synchronized
+            </span>
+            <button type="button" onclick="loadOverviewMetrics()" class="hover:text-phblue font-bold flex items-center gap-1 transition-colors">
+              <i class="fa-solid fa-arrows-rotate"></i> Refresh
+            </button>
+          </div>
+        </div>
+
+        <!-- Right: Status Proportion & Quick Actions -->
+        <div class="lg:col-span-5 xl:col-span-5 bg-white rounded-3xl border border-slate-200/90 p-6 sm:p-8 shadow-xs flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4 pb-4 border-b border-slate-100">
+              <div>
+                <h3 class="font-black text-base sm:text-lg text-slate-900 flex items-center gap-2">
+                  <i class="fa-solid fa-chart-pie text-emerald-600"></i>
+                  Application Pipeline Status
+                </h3>
+                <p class="text-xs text-slate-500 mt-0.5">Real-time status progression of active resident requests</p>
+              </div>
+              <span class="text-xs font-bold text-emerald-800 bg-emerald-50 border border-emerald-200 px-3 py-1 rounded-xl">
+                Pipeline
+              </span>
+            </div>
+            <div class="h-64 sm:h-72 relative flex items-center justify-center my-2">
+              <canvas id="statusChart"></canvas>
+            </div>
+          </div>
+
+          <!-- Quick Jump Buttons & Actions -->
+          <div class="pt-5 border-t border-slate-100 space-y-2.5">
+            <div class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Quick Workflow Jumps</div>
+            <div class="grid grid-cols-2 gap-2.5">
+              <button type="button" onclick="switchToRequestsTab('Pending Review')" class="py-2.5 px-3 bg-amber-50 hover:bg-amber-100 border border-amber-200 text-amber-800 font-bold text-xs rounded-xl transition-all shadow-2xs hover:shadow-xs flex items-center justify-center gap-1.5">
+                <i class="fa-solid fa-hourglass-half text-amber-600"></i>
+                <span>Review Pending</span>
+              </button>
+              <button type="button" onclick="switchToRequestsTab('Ready for Pickup')" class="py-2.5 px-3 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 text-emerald-800 font-bold text-xs rounded-xl transition-all shadow-2xs hover:shadow-xs flex items-center justify-center gap-1.5">
+                <i class="fa-solid fa-building-circle-check text-emerald-600"></i>
+                <span>Ready for Pickup</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- TAB 2: REQUEST MANAGEMENT TABLE -->
+    <!-- ============================================================== -->
+    <div id="tabContentRequests" class="hidden space-y-6">
+      
+      <!-- Filter Bar -->
+      <div class="bg-white rounded-3xl border border-slate-200/90 p-5 sm:p-6 shadow-xs">
+        <div class="grid grid-cols-1 sm:grid-cols-12 gap-3.5 items-center">
+          
+          <!-- Live Search Input -->
+          <div class="sm:col-span-5">
+            <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1.5">Live Search Record</label>
+            <div class="relative">
+              <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400 text-sm">
+                <i class="fa-solid fa-magnifying-glass"></i>
+              </span>
+              <input type="text" id="searchInput" placeholder="Search by Control No, Applicant Name, or Mobile No..."
+                class="w-full pl-10 pr-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs font-semibold text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-phblue focus:bg-white transition-all">
+            </div>
+          </div>
+
+          <!-- Status Filter -->
+          <div class="sm:col-span-3">
+            <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1.5">Filter by Status</label>
+            <select id="filterStatus" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs font-bold text-slate-800 focus:outline-hidden focus:ring-2 focus:ring-phblue focus:bg-white transition-all">
+              <option value="All">All Statuses</option>
+              <option value="Pending Review">Pending Review</option>
+              <option value="Processing">Processing</option>
+              <option value="Ready for Pickup">Ready for Pickup</option>
+              <option value="Released">Released</option>
+              <option value="Rejected">Rejected</option>
+            </select>
+          </div>
+
+          <!-- Certificate Type Filter -->
+          <div class="sm:col-span-3">
+            <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1.5">Certificate Type</label>
+            <select id="filterCertType" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs font-bold text-slate-800 focus:outline-hidden focus:ring-2 focus:ring-phblue focus:bg-white transition-all">
+              <option value="All">All Certificate Types</option>
+              <option value="Barangay Clearance">Barangay Clearance</option>
+              <option value="Certificate of Residency">Certificate of Residency</option>
+              <option value="Certificate of Indigency">Certificate of Indigency</option>
+            </select>
+          </div>
+
+          <!-- Refresh / Reset -->
+          <div class="sm:col-span-1 flex items-end">
+            <button type="button" id="resetFiltersBtn" title="Reset Filters" class="w-full py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl border border-slate-300 transition-colors mt-auto flex items-center justify-center">
+              <i class="fa-solid fa-arrows-rotate"></i>
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Requests Data Table Card -->
+      <div class="bg-white rounded-3xl border border-slate-200/90 shadow-xs overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs text-slate-700">
+            <thead class="bg-slate-50 text-[11px] uppercase font-bold text-slate-600 tracking-wider border-b border-slate-200">
+              <tr>
+                <th class="px-6 py-4">Control No.</th>
+                <th class="px-6 py-4">Resident Applicant</th>
+                <th class="px-6 py-4">Certificate Type</th>
+                <th class="px-6 py-4">Purok</th>
+                <th class="px-6 py-4">Contact No.</th>
+                <th class="px-6 py-4">Date Filed</th>
+                <th class="px-6 py-4">Status</th>
+                <th class="px-6 py-4 text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="requestsTableBody" class="divide-y divide-slate-100 font-medium">
+              <!-- Dynamically populated rows -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Table Loading State -->
+        <div id="tableLoading" class="hidden p-12 text-center text-slate-400">
+          <i class="fa-solid fa-circle-notch fa-spin text-3xl mb-3 text-phblue"></i>
+          <div class="text-sm font-bold text-slate-700">Loading certificate records...</div>
+        </div>
+
+        <!-- Empty State -->
+        <div id="tableEmpty" class="hidden p-16 text-center text-slate-400">
+          <i class="fa-solid fa-folder-open text-4xl mb-3 text-slate-300"></i>
+          <div class="text-sm font-bold text-slate-700">No matching requests found</div>
+          <div class="text-xs text-slate-500 mt-1">Try adjusting your search query or filter options</div>
+        </div>
+
+        <!-- Pagination Controls -->
+        <div class="px-6 py-4 bg-slate-50 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-600 gap-3">
+          <div id="paginationInfo" class="font-semibold text-slate-600">Showing 1 to 10 of 0 entries</div>
+          <div class="flex items-center space-x-2">
+            <button type="button" id="prevPageBtn" class="px-3.5 py-2 bg-white border border-slate-300 rounded-xl hover:bg-slate-100 font-bold disabled:opacity-40 disabled:cursor-not-allowed transition-colors shadow-2xs">
+              <i class="fa-solid fa-chevron-left mr-1"></i> Prev
+            </button>
+            <span id="pageIndicator" class="font-extrabold text-slate-800 px-3 py-1 bg-white border border-slate-200 rounded-lg">Page 1</span>
+            <button type="button" id="nextPageBtn" class="px-3.5 py-2 bg-white border border-slate-300 rounded-xl hover:bg-slate-100 font-bold disabled:opacity-40 disabled:cursor-not-allowed transition-colors shadow-2xs">
+              Next <i class="fa-solid fa-chevron-right ml-1"></i>
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- TAB 3: EMAIL & SMS NOTIFICATION AUDIT LOGS -->
+    <!-- ============================================================== -->
+    <div id="tabContentSms" class="hidden space-y-6">
+      
+      <!-- Top banner for Notification Gateway Info -->
+      <div class="bg-gradient-to-r from-slate-900 via-indigo-950 to-blue-900 text-white rounded-3xl p-6 sm:p-8 shadow-md flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div>
+          <div class="flex items-center space-x-2 text-blue-300 text-xs font-bold uppercase tracking-wider mb-1.5">
+            <i class="fa-solid fa-envelope-circle-check"></i>
+            <span>Resend Official Email API & SMS Gateway</span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-black">Citizen Email & Notification Logs</h2>
+          <p class="text-xs sm:text-sm text-blue-100 mt-1">
+            Every submission, approval, and pickup schedule automatically dispatches a verified branded email notification via Resend directly to the resident.
+          </p>
+        </div>
+
+        <div class="bg-white/10 backdrop-blur-xs border border-white/20 px-5 py-3 rounded-2xl text-xs">
+          <div class="text-[10px] text-blue-200 uppercase font-bold tracking-wider">Gateway Sender</div>
+          <div class="text-sm font-extrabold text-white">Barangay Concepcion (Resend)</div>
+        </div>
+      </div>
+
+      <!-- SMS Logs Table -->
+      <div class="bg-white rounded-3xl border border-slate-200/90 shadow-xs overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs text-slate-700">
+            <thead class="bg-slate-50 text-[11px] uppercase font-bold text-slate-600 tracking-wider border-b border-slate-200">
+              <tr>
+                <th class="px-6 py-4">Log ID</th>
+                <th class="px-6 py-4">Recipient Number</th>
+                <th class="px-6 py-4">Target Resident & Control No.</th>
+                <th class="px-6 py-4">SMS Message Body</th>
+                <th class="px-6 py-4">Dispatch Status</th>
+                <th class="px-6 py-4">Timestamp</th>
+              </tr>
+            </thead>
+            <tbody id="smsLogsTableBody" class="divide-y divide-slate-100 font-medium">
+              <!-- Dynamically populated SMS logs -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- ============================================================== -->
+  <!-- MODAL 1: VIEW DETAILS MODAL -->
+  <!-- ============================================================== -->
+  <div id="viewModal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-slate-900/80 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl border border-slate-100 max-h-[90vh] overflow-y-auto">
+      
+      <div class="flex items-center justify-between pb-4 border-b border-slate-100">
+        <div>
+          <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500">Application File Details</span>
+          <h3 id="modalReqControlNo" class="text-xl font-black text-phblue font-mono">BC-XXXXXXXX-XXXX</h3>
+        </div>
+        <button type="button" onclick="closeViewModal()" class="text-slate-400 hover:text-slate-600 p-2 text-lg">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="space-y-6 mt-4">
+        <!-- Applicant Details Grid -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 text-xs bg-slate-50 p-4 rounded-2xl border border-slate-200">
+          <div>
+            <div class="text-[10px] uppercase text-slate-400 font-bold">Applicant Full Name</div>
+            <div id="modalReqFullName" class="font-bold text-slate-900 mt-0.5">--</div>
+          </div>
+          <div>
+            <div class="text-[10px] uppercase text-slate-400 font-bold">Certificate Type</div>
+            <div id="modalReqCertType" class="font-bold text-phblue mt-0.5">--</div>
+          </div>
+          <div>
+            <div class="text-[10px] uppercase text-slate-400 font-bold">Status</div>
+            <div id="modalReqStatus" class="font-bold mt-0.5">--</div>
+          </div>
+          <div>
+            <div class="text-[10px] uppercase text-slate-400 font-bold">Purok Address</div>
+            <div id="modalReqPurok" class="font-medium text-slate-800 mt-0.5">--</div>
+          </div>
+          <div>
+            <div class="text-[10px] uppercase text-slate-400 font-bold">Contact Number</div>
+            <div id="modalReqContact" class="font-medium text-slate-800 mt-0.5 font-mono">--</div>
+          </div>
+          <div>
+            <div class="text-[10px] uppercase text-slate-400 font-bold">Email Address (Resend)</div>
+            <div id="modalReqEmail" class="font-medium text-blue-700 mt-0.5 truncate" title="Applicant email">--</div>
+          </div>
+          <div>
+            <div class="text-[10px] uppercase text-slate-400 font-bold">Residency Years</div>
+            <div id="modalReqResidency" class="font-medium text-slate-800 mt-0.5">--</div>
+          </div>
+          <div>
+            <div class="text-[10px] uppercase text-slate-400 font-bold">Cedula (CTC) No.</div>
+            <div id="modalReqCedula" class="font-medium text-slate-800 mt-0.5 font-mono">--</div>
+          </div>
+          <div>
+            <div class="text-[10px] uppercase text-slate-400 font-bold">Civil Status / Gender</div>
+            <div id="modalReqCivil" class="font-medium text-slate-800 mt-0.5">--</div>
+          </div>
+          <div>
+            <div class="text-[10px] uppercase text-slate-400 font-bold">Date of Birth</div>
+            <div id="modalReqBirth" class="font-medium text-slate-800 mt-0.5">--</div>
+          </div>
+        </div>
+
+        <!-- Purpose -->
+        <div>
+          <div class="text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Stated Purpose of Request</div>
+          <div id="modalReqPurpose" class="p-3 bg-white border border-slate-200 rounded-xl text-xs font-medium text-slate-800">--</div>
+        </div>
+
+        <!-- Staff Remarks -->
+        <div>
+          <div class="text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Administrative Remarks / Reason</div>
+          <div id="modalReqRemarks" class="p-3 bg-blue-50/60 border border-blue-200 rounded-xl text-xs font-medium text-blue-950">--</div>
+        </div>
+
+        <!-- Valid ID Attachment Preview -->
+        <div>
+          <div class="text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Uploaded Valid ID Attachment</div>
+          <div id="modalIdContainer" class="p-3 bg-slate-50 border border-slate-200 rounded-xl text-xs">
+            <!-- Dynamically populated: Image preview or download link -->
+          </div>
+        </div>
+
+        <!-- Status Change History -->
+        <div>
+          <div class="text-xs font-bold uppercase tracking-wider text-slate-600 mb-2">Audit Status Logs</div>
+          <div id="modalStatusLogs" class="space-y-2">
+            <!-- Dynamically populated logs -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
+        <button type="button" onclick="closeViewModal()" class="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl transition-colors">
+          Close
+        </button>
+        <div class="flex items-center space-x-2">
+          <button type="button" id="modalUpdateStatusBtn" class="px-4 py-2.5 bg-blue-50 hover:bg-blue-100 text-phblue font-bold text-xs rounded-xl border border-blue-200 transition-colors flex items-center space-x-1.5 shadow-2xs">
+            <i class="fa-solid fa-pen-to-square"></i>
+            <span>Update Status</span>
+          </button>
+          <a id="modalPrintLink" href="#" target="_blank" class="px-5 py-2.5 bg-phblue hover:bg-blue-800 text-white font-bold text-xs rounded-xl shadow-md transition-colors flex items-center space-x-1.5">
+            <i class="fa-solid fa-print"></i>
+            <span>Official Print View</span>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- MODAL 2: UPDATE STATUS MODAL -->
+  <!-- ============================================================== -->
+  <div id="statusModal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-slate-900/80 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-100">
+      
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+        <div>
+          <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500">Update Application Status</span>
+          <h3 id="statusModalControlNo" class="text-lg font-black text-phblue font-mono">BC-XXXXXXXX-XXXX</h3>
+        </div>
+        <button type="button" onclick="closeStatusModal()" class="text-slate-400 hover:text-slate-600 p-2 text-lg">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <form id="statusUpdateForm" class="space-y-4 mt-4">
+        <input type="hidden" id="statusUpdateReqId">
+        <input type="hidden" id="statusUpdateReqPhone">
+        <input type="hidden" id="statusUpdateReqName">
+        <input type="hidden" id="statusUpdateReqCert">
+
+        <div>
+          <label for="newStatusSelect" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+            Select New Status <span class="text-red-500">*</span>
+          </label>
+          <select id="newStatusSelect" required class="w-full px-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs font-bold text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-phblue">
+            <option value="Pending Review">Pending Review</option>
+            <option value="Processing">Processing (Approved for generation)</option>
+            <option value="Ready for Pickup">Ready for Pickup (Signed & Sealed)</option>
+            <option value="Released">Released (Claimed by resident)</option>
+            <option value="Rejected">Rejected (Requires clarification / Incomplete)</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="statusRemarks" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+            Remarks / Instructions for Resident
+          </label>
+          <textarea id="statusRemarks" rows="3" placeholder="Enter notes or pickup instructions (this appears on resident tracking and in the SMS alert)..."
+            class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-phblue"></textarea>
+        </div>
+
+        <!-- Automated Notification Alert Toggle -->
+        <div class="p-3.5 bg-blue-50 border border-blue-200 rounded-xl">
+          <label class="flex items-start space-x-2.5 cursor-pointer">
+            <input type="checkbox" id="sendSmsCheckbox" checked class="mt-0.5 w-4 h-4 text-phblue rounded border-slate-300 focus:ring-phblue">
+            <div class="text-xs text-slate-700 leading-tight">
+              <strong class="font-bold text-phblue">Send Automated Email & SMS Notification</strong><br/>
+              <span class="text-[11px] text-slate-600">Dispatches an instant official email receipt via Resend and SMS notification to the resident.</span>
+            </div>
+          </label>
+
+          <!-- Live Notification Preview Box -->
+          <div class="mt-2.5 pt-2.5 border-t border-blue-200/80 text-[11px] text-slate-700">
+            <div class="font-bold text-[10px] text-blue-900 uppercase">Notification Text Preview:</div>
+            <div id="smsPreviewBox" class="mt-1 p-2 bg-white rounded-lg border border-blue-200 font-mono text-[11px] text-slate-800 italic">
+              --
+            </div>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-end space-x-3 pt-2">
+          <button type="button" onclick="closeStatusModal()" class="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs rounded-xl transition-colors">
+            Cancel
+          </button>
+          <button type="submit" id="saveStatusBtn" class="px-6 py-2.5 bg-phblue hover:bg-blue-800 text-white font-bold text-xs rounded-xl shadow-md transition-all flex items-center space-x-1.5">
+            <span>Save & Notify Resident</span>
+            <i class="fa-solid fa-paper-plane text-[10px]"></i>
+          </button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- MODAL 3: MANUAL QUICK SMS MODAL -->
+  <!-- ============================================================== -->
+  <div id="manualSmsModal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-slate-900/80 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-100">
+      
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+        <div class="flex items-center space-x-2 text-phblue font-bold text-sm">
+          <i class="fa-solid fa-comment-dots text-lg"></i>
+          <span>Send Direct SMS Notification</span>
+        </div>
+        <button type="button" onclick="closeManualSmsModal()" class="text-slate-400 hover:text-slate-600 p-2 text-lg">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <form id="manualSmsForm" class="space-y-4 mt-4">
+        <input type="hidden" id="manualSmsReqId">
+
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">Recipient Mobile Number</label>
+          <input type="text" id="manualSmsRecipient" required
+            class="w-full px-3.5 py-2 bg-slate-50 border border-slate-300 rounded-xl text-xs font-mono font-bold text-slate-900">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">Select Pre-filled Template</label>
+          <select id="smsTemplateSelect" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-300 rounded-xl text-xs font-semibold text-slate-900">
+            <option value="">-- Choose Quick Template --</option>
+            <option value="ready">Ready for Pickup (Hall Hours 8AM-5PM)</option>
+            <option value="missing_id">Additional Requirement Needed (Valid ID)</option>
+            <option value="cedula">Cedula Requirement Notice</option>
+            <option value="office_closing">Barangay Hall Office Hours Advisory</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">SMS Message Content</label>
+          <textarea id="manualSmsMessage" rows="4" required placeholder="Type SMS message..."
+            class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-phblue"></textarea>
+          <div class="flex justify-between text-[10px] text-slate-500 mt-1">
+            <span>Standard 160-char SMS segment</span>
+            <span id="charCount">0 characters</span>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-end space-x-3 pt-2">
+          <button type="button" onclick="closeManualSmsModal()" class="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs rounded-xl transition-colors">
+            Cancel
+          </button>
+          <button type="submit" id="sendManualSmsBtn" class="px-6 py-2.5 bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs rounded-xl shadow-md transition-all flex items-center space-x-1.5">
+            <span>Send SMS</span>
+            <i class="fa-solid fa-paper-plane text-[10px]"></i>
+          </button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+  <script src="/js/admin-dashboard.js"></script>
+</body>
+</html>
+

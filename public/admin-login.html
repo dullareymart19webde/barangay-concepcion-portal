@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Staff Portal Login | Barangay Concepcion, Valencia City</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            phblue: '#0038A8',
+            phred: '#CE1126',
+            phgold: '#FCD116',
+            brgygreen: '#15803D'
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="/css/custom.css">
+</head>
+<body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col justify-between">
+
+  <!-- Top Philippine Flag Accent Line -->
+  <div class="ph-flag-accent"></div>
+
+  <div class="max-w-md mx-auto w-full px-4 py-12 flex-grow flex flex-col justify-center">
+    
+    <!-- Branding Header -->
+    <div class="text-center mb-6">
+      <div class="flex items-center justify-center space-x-3 mb-3">
+        <img src="/images/valencia-logo.png" alt="Valencia City Seal" class="w-14 h-14 object-contain drop-shadow-xs">
+        <img src="/images/brgy-logo.png" alt="Barangay Concepcion Seal" class="w-14 h-14 object-contain drop-shadow-xs">
+      </div>
+      <div class="text-[11px] font-bold uppercase tracking-widest text-slate-500">Republic of the Philippines • Valencia City</div>
+      <h1 class="text-2xl font-black text-phblue tracking-tight">BARANGAY CONCEPCION</h1>
+      <div class="text-xs font-semibold text-slate-600">E-Certificate Staff & Official Management Portal</div>
+    </div>
+
+    <!-- Login Card -->
+    <div class="bg-white rounded-3xl border border-slate-200 p-8 shadow-xl">
+      
+      <div class="flex items-center justify-between text-xs font-bold text-slate-700 uppercase tracking-wider mb-6 pb-3 border-b border-slate-100">
+        <div class="flex items-center space-x-2">
+          <i class="fa-solid fa-lock text-phblue"></i>
+          <span>Authorized Personnel</span>
+        </div>
+        <div class="flex items-center space-x-1.5 text-[10px] font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 rounded-full">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span>Firebase Auth</span>
+        </div>
+      </div>
+
+      <!-- Error Alert -->
+      <div id="loginError" class="hidden mb-5 p-3.5 bg-red-50 border border-red-200 rounded-xl text-red-800 text-xs flex items-center space-x-2">
+        <i class="fa-solid fa-circle-exclamation text-red-600 shrink-0"></i>
+        <span id="loginErrorMsg">Invalid username or password.</span>
+      </div>
+
+      <form id="loginForm" class="space-y-4">
+        <div>
+          <label for="username" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+            Official Email or Staff Username
+          </label>
+          <div class="relative">
+            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
+              <i class="fa-solid fa-envelope"></i>
+            </span>
+            <input type="text" id="username" name="username" placeholder="e.g. concepcion66barangay@gmail.com" required
+              class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-semibold text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-phblue focus:border-transparent">
+          </div>
+        </div>
+
+        <div>
+          <label for="password" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+            Password
+          </label>
+          <div class="relative">
+            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
+              <i class="fa-solid fa-key"></i>
+            </span>
+            <input type="password" id="password" name="password" placeholder="••••••••••••" required
+              class="w-full pl-10 pr-10 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-semibold text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-phblue focus:border-transparent">
+            <button type="button" id="togglePassword" class="absolute inset-y-0 right-0 flex items-center pr-3.5 text-slate-400 hover:text-slate-600">
+              <i class="fa-solid fa-eye" id="eyeIcon"></i>
+            </button>
+          </div>
+        </div>
+
+        <button type="submit" id="loginBtn" class="w-full py-3 bg-phblue hover:bg-blue-800 text-white font-bold text-sm rounded-xl shadow-md transition-all flex items-center justify-center space-x-2 mt-2">
+          <span id="loginBtnText">Sign In to Dashboard</span>
+          <i id="loginBtnIcon" class="fa-solid fa-arrow-right text-xs"></i>
+          <span id="loginSpinner" class="hidden">
+            <i class="fa-solid fa-circle-notch fa-spin"></i>
+          </span>
+        </button>
+      </form>
+
+      <!-- Quick Fill Credentials Card for Firebase Auth Accounts -->
+      <div class="mt-6 pt-5 border-t border-slate-100">
+        <div class="text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-2.5 flex items-center justify-between">
+          <span><i class="fa-solid fa-shield-halved mr-1 text-emerald-600"></i> Firebase Auth Accounts:</span>
+          <span class="text-[9px] text-slate-400 font-normal">Click to auto-fill</span>
+        </div>
+        
+        <div class="space-y-2">
+          <button type="button" id="fillOfficialEmail" class="w-full text-left p-2.5 bg-yellow-50/70 hover:bg-yellow-100 border border-yellow-200/80 rounded-xl transition-colors">
+            <div class="text-[11px] font-bold text-yellow-900 flex items-center justify-between">
+              <span>Official Barangay Email (Punong Barangay)</span>
+              <span class="text-[9px] bg-yellow-200/80 text-yellow-900 px-1.5 py-0.5 rounded-sm font-semibold">Admin</span>
+            </div>
+            <div class="text-[10px] text-slate-600 mt-0.5 font-mono">concepcion66barangay@gmail.com</div>
+          </button>
+
+          <div class="grid grid-cols-2 gap-2">
+            <button type="button" id="fillSecretary" class="text-left p-2.5 bg-blue-50 hover:bg-blue-100 border border-blue-200 rounded-xl transition-colors">
+              <div class="text-[11px] font-bold text-phblue">Barangay Secretary</div>
+              <div class="text-[10px] text-slate-600 truncate font-mono">secretary@...</div>
+              <div class="text-[9px] text-slate-500">Hon. Redin T. Butanas</div>
+            </button>
+
+            <button type="button" id="fillAdmin" class="text-left p-2.5 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-xl transition-colors">
+              <div class="text-[11px] font-bold text-slate-800">Barangay Admin</div>
+              <div class="text-[10px] text-slate-600 truncate font-mono">admin@...</div>
+              <div class="text-[9px] text-slate-500">Hon. Merlyn G. Antiga</div>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="text-center mt-6">
+      <a href="/" class="text-xs text-slate-500 hover:text-phblue font-semibold transition-colors">
+        <i class="fa-solid fa-arrow-left mr-1"></i> Return to Resident Public Portal
+      </a>
+    </div>
+
+  </div>
+
+  <footer class="text-center py-4 text-xs text-slate-500 border-t border-slate-200 bg-white">
+    Barangay Concepcion, Valencia City, Bukidnon • Administrative Portal &copy; 2026
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const form = document.getElementById('loginForm');
+      const usernameInput = document.getElementById('username');
+      const passwordInput = document.getElementById('password');
+      const togglePassword = document.getElementById('togglePassword');
+      const eyeIcon = document.getElementById('eyeIcon');
+      const loginBtn = document.getElementById('loginBtn');
+      const loginBtnText = document.getElementById('loginBtnText');
+      const loginBtnIcon = document.getElementById('loginBtnIcon');
+      const loginSpinner = document.getElementById('loginSpinner');
+      const loginError = document.getElementById('loginError');
+      const loginErrorMsg = document.getElementById('loginErrorMsg');
+
+      // Toggle password visibility
+      togglePassword.addEventListener('click', () => {
+        if (passwordInput.type === 'password') {
+          passwordInput.type = 'text';
+          eyeIcon.classList.replace('fa-eye', 'fa-eye-slash');
+        } else {
+          passwordInput.type = 'password';
+          eyeIcon.classList.replace('fa-eye-slash', 'fa-eye');
+        }
+      });
+
+      // Firebase Auth 1-Click quick fills
+      document.getElementById('fillOfficialEmail')?.addEventListener('click', () => {
+        usernameInput.value = 'concepcion66barangay@gmail.com';
+        passwordInput.value = 'BarangayOfficial2026!';
+      });
+
+      document.getElementById('fillSecretary')?.addEventListener('click', () => {
+        usernameInput.value = 'secretary@barangayconcepcion.gov.ph';
+        passwordInput.value = 'BarangaySecretary2026!';
+      });
+
+      document.getElementById('fillAdmin')?.addEventListener('click', () => {
+        usernameInput.value = 'admin@barangayconcepcion.gov.ph';
+        passwordInput.value = 'BarangayAdmin2026!';
+      });
+
+      // Form submission
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        loginError.classList.add('hidden');
+
+        const username = usernameInput.value.trim();
+        const password = passwordInput.value;
+
+        if (!username || !password) return;
+
+        loginBtn.disabled = true;
+        loginBtnText.textContent = 'Verifying with Firebase Auth...';
+        loginBtnIcon.classList.add('hidden');
+        loginSpinner.classList.remove('hidden');
+
+        try {
+          const res = await fetch('/api/admin/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: username, username, password })
+          });
+
+          const data = await res.json();
+
+          if (!res.ok || !data.success) {
+            loginErrorMsg.textContent = data.message || 'Invalid username or password.';
+            loginError.classList.remove('hidden');
+            loginBtn.disabled = false;
+            loginBtnText.textContent = 'Sign In to Dashboard';
+            loginBtnIcon.classList.remove('hidden');
+            loginSpinner.classList.add('hidden');
+            return;
+          }
+
+          // Store token in localStorage as well as cookie
+          if (data.token) {
+            localStorage.setItem('admin_token', data.token);
+            localStorage.setItem('admin_user', JSON.stringify(data.admin));
+          }
+
+          loginBtnText.textContent = 'Login successful!';
+          setTimeout(() => {
+            window.location.href = '/admin/dashboard';
+          }, 400);
+
+        } catch (err) {
+          console.error('Login error:', err);
+          loginErrorMsg.textContent = 'Server connection error. Please try again.';
+          loginError.classList.remove('hidden');
+          loginBtn.disabled = false;
+          loginBtnText.textContent = 'Sign In to Dashboard';
+          loginBtnIcon.classList.remove('hidden');
+          loginSpinner.classList.add('hidden');
+        }
+      });
+    });
+  </script>
+</body>
+</html>
+

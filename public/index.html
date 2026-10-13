@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Barangay E-Certificate Portal | Barangay Concepcion, Valencia City</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            phblue: '#0038A8',
+            phred: '#CE1126',
+            phgold: '#FCD116',
+            brgygreen: '#15803D'
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="/css/custom.css">
+</head>
+<body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen">
+
+  <!-- Top Philippine Flag Accent Line -->
+  <div class="ph-flag-accent"></div>
+
+  <!-- Official Government Header Bar -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        
+        <!-- Jurisdiction Branding with Seals -->
+        <a href="/" class="flex items-center space-x-3.5 group">
+          <img src="/images/valencia-logo.png" alt="Valencia City Seal" class="w-12 h-12 object-contain drop-shadow-xs group-hover:scale-105 transition-transform">
+          <img src="/images/brgy-logo.png" alt="Barangay Concepcion Seal" class="w-12 h-12 object-contain drop-shadow-xs group-hover:scale-105 transition-transform">
+          <div>
+            <div class="text-[10px] uppercase font-bold tracking-wider text-slate-500 leading-tight">Republic of the Philippines • Bukidnon</div>
+            <div class="text-base sm:text-lg font-extrabold text-phblue tracking-tight leading-tight">BARANGAY CONCEPCION</div>
+            <div class="text-xs font-semibold text-slate-600">City of Valencia • E-Certificate Portal</div>
+          </div>
+        </a>
+
+        <!-- Navigation Buttons -->
+        <nav class="hidden md:flex items-center space-x-3">
+          <a href="/#requirements" class="text-sm font-medium text-slate-700 hover:text-phblue px-3 py-2 rounded-lg transition-colors">
+            <i class="fa-solid fa-file-shield mr-1.5 text-phblue"></i> Requirements
+          </a>
+          <a href="/#officials" class="text-sm font-medium text-slate-700 hover:text-phblue px-3 py-2 rounded-lg transition-colors">
+            <i class="fa-solid fa-users mr-1.5 text-phblue"></i> Officials & Hotlines
+          </a>
+          <a href="/track" class="text-sm font-semibold text-phblue hover:bg-blue-50 px-3.5 py-2 rounded-lg border border-blue-200 transition-colors">
+            <i class="fa-solid fa-magnifying-glass mr-1.5"></i> Track Request
+          </a>
+          <a href="/request" class="text-sm font-semibold text-white bg-phblue hover:bg-blue-800 px-4 py-2 rounded-lg shadow-sm transition-all hover:shadow-md">
+            <i class="fa-solid fa-plus-circle mr-1.5"></i> Request Certificate
+          </a>
+          <a href="/admin" class="text-xs font-medium text-slate-500 hover:text-slate-800 ml-2 px-2 py-1 rounded transition-colors" title="Barangay Staff Login">
+            <i class="fa-solid fa-lock mr-1"></i> Staff
+          </a>
+        </nav>
+
+        <!-- Mobile Menu Toggle Button -->
+        <div class="flex md:hidden items-center space-x-2">
+          <a href="/track" class="text-xs font-semibold text-phblue border border-blue-200 px-2.5 py-1.5 rounded-md">
+            Track
+          </a>
+          <a href="/request" class="text-xs font-semibold text-white bg-phblue px-3 py-1.5 rounded-md">
+            Apply
+          </a>
+          <a href="/admin" class="text-slate-500 p-2" title="Staff Login">
+            <i class="fa-solid fa-user-lock"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="relative bg-gradient-to-br from-blue-900 via-phblue to-indigo-900 text-white overflow-hidden py-14 sm:py-20">
+    <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:16px_16px]"></div>
+    
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+        
+        <!-- Left Hero Text -->
+        <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+          <div class="inline-flex items-center space-x-2 bg-blue-800/80 border border-blue-400/30 px-3.5 py-1.5 rounded-full text-xs font-semibold text-blue-100">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span>Online Citizen Services with Real-time SMS Notification</span>
+          </div>
+
+          <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-tight">
+            Barangay E-Certificate Portal: <br/>
+            <span class="text-phgold">Online Request & Tracking</span>
+          </h1>
+
+          <p class="text-base sm:text-lg text-blue-100 max-w-2xl leading-relaxed">
+            Apply for your official barangay documents online from the comfort of your home. Track your application status live and receive automatic SMS updates on your mobile phone.
+          </p>
+
+          <!-- Quick Action Buttons -->
+          <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-center lg:justify-start gap-4 pt-2">
+            <a href="/request" class="inline-flex items-center justify-center px-6 py-3.5 text-base font-bold text-blue-950 bg-phgold hover:bg-yellow-400 rounded-xl shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-0.5">
+              <i class="fa-solid fa-file-pen mr-2 text-lg"></i>
+              Request Certificate Now
+            </a>
+
+            <a href="/track" class="inline-flex items-center justify-center px-6 py-3.5 text-base font-semibold text-white bg-white/10 hover:bg-white/20 border border-white/30 rounded-xl backdrop-blur-xs transition-all">
+              <i class="fa-solid fa-magnifying-glass mr-2"></i>
+              Track Existing Request
+            </a>
+          </div>
+
+          <!-- Feature Bullets -->
+          <div class="grid grid-cols-3 gap-3 pt-4 border-t border-blue-700/50 text-xs sm:text-sm text-blue-200">
+            <div class="flex items-center space-x-2">
+              <i class="fa-solid fa-bolt text-phgold"></i>
+              <span>Zero-Queue Online Filing</span>
+            </div>
+            <div class="flex items-center space-x-2">
+              <i class="fa-solid fa-comment-sms text-phgold"></i>
+              <span>Instant SMS Updates</span>
+            </div>
+            <div class="flex items-center space-x-2">
+              <i class="fa-solid fa-shield-halved text-phgold"></i>
+              <span>Official QR Verified</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Hero Visual Card -->
+        <div class="lg:col-span-5">
+          <div class="bg-white rounded-2xl p-6 sm:p-8 text-slate-800 shadow-2xl border border-slate-100">
+            <div class="flex items-center space-x-3 pb-4 border-b border-slate-100">
+              <div class="w-10 h-10 rounded-full bg-blue-100 text-phblue flex items-center justify-center font-bold text-lg">
+                <i class="fa-solid fa-magnifying-glass"></i>
+              </div>
+              <div>
+                <h3 class="font-extrabold text-base text-slate-900">Quick Tracking Lookup</h3>
+                <p class="text-xs text-slate-500">Check the current processing stage of your certificate</p>
+              </div>
+            </div>
+
+            <!-- Instant Search Form -->
+            <form action="/track" method="GET" class="mt-5 space-y-4">
+              <div>
+                <label for="quickRef" class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">
+                  Control Tracking Number
+                </label>
+                <div class="relative">
+                  <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
+                    <i class="fa-solid fa-barcode"></i>
+                  </span>
+                  <input type="text" id="quickRef" name="ref" placeholder="e.g. BC-20261014-8A4F" required
+                    class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-300 rounded-xl text-sm font-semibold text-slate-900 placeholder-slate-400 focus:outline-hidden focus:ring-2 focus:ring-phblue focus:border-transparent uppercase">
+                </div>
+                <p class="text-[11px] text-slate-500 mt-1.5">
+                  <i class="fa-solid fa-circle-info mr-1 text-phblue"></i> Sent via SMS upon application submission.
+                </p>
+              </div>
+
+              <button type="submit" class="w-full py-3 px-4 bg-phblue hover:bg-blue-800 text-white font-bold text-sm rounded-xl shadow-md transition-all flex items-center justify-center space-x-2">
+                <span>Check Status</span>
+                <i class="fa-solid fa-arrow-right text-xs"></i>
+              </button>
+            </form>
+
+            <!-- Citizen Guidance Note -->
+            <div class="mt-4 pt-4 border-t border-slate-100 flex items-start space-x-2.5 text-[11px] text-slate-500">
+              <i class="fa-solid fa-shield-halved text-phblue mt-0.5 shrink-0"></i>
+              <span>Your tracking code is automatically sent via SMS and printed on your official digital receipt upon application submission.</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Target Documents & Requirements Section -->
+  <section id="requirements" class="py-16 bg-white border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-12">
+        <span class="text-xs font-bold text-phblue uppercase tracking-widest bg-blue-50 px-3 py-1 rounded-full border border-blue-100">
+          Official Documents Available
+        </span>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-3">
+          Available Certificates & Requirements
+        </h2>
+        <p class="text-slate-600 text-sm sm:text-base mt-2">
+          Barangay Concepcion issues the following official certifications online. Please ensure you prepare the required supporting details.
+        </p>
+      </div>
+
+      <!-- 3 Documents Cards Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        
+        <!-- 1. Barangay Clearance -->
+        <div class="bg-slate-50 rounded-2xl border border-slate-200 hover:border-blue-300 transition-all shadow-xs hover:shadow-md flex flex-col p-6">
+          <div class="w-12 h-12 rounded-xl bg-blue-100 text-phblue flex items-center justify-center text-xl mb-4">
+            <i class="fa-solid fa-stamp"></i>
+          </div>
+          <span class="text-[11px] font-bold uppercase tracking-wider text-blue-600">Document 1</span>
+          <h3 class="text-xl font-bold text-slate-900 mt-1 mb-2">Barangay Clearance</h3>
+          <p class="text-xs text-slate-600 leading-relaxed mb-4">
+            Official certification of good moral standing and residency within Barangay Concepcion, with no pending criminal or civil derogatory record.
+          </p>
+
+          <div class="border-t border-slate-200 pt-4 mt-auto">
+            <div class="text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Common Purposes:</div>
+            <ul class="text-xs text-slate-600 space-y-1.5 mb-4">
+              <li class="flex items-center"><i class="fa-solid fa-check text-emerald-600 mr-2"></i> Local / Overseas Employment</li>
+              <li class="flex items-center"><i class="fa-solid fa-check text-emerald-600 mr-2"></i> Police Clearance / NBI Renewal</li>
+              <li class="flex items-center"><i class="fa-solid fa-check text-emerald-600 mr-2"></i> Business Permit / Bank Requirement</li>
+            </ul>
+
+            <div class="text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Requirements:</div>
+            <ul class="text-xs text-slate-600 space-y-1.5">
+              <li class="flex items-start"><i class="fa-solid fa-id-card text-phblue mr-2 mt-0.5"></i> 1 Valid Government / Student ID</li>
+              <li class="flex items-start"><i class="fa-solid fa-receipt text-phblue mr-2 mt-0.5"></i> Community Tax Certificate (Cedula)</li>
+              <li class="flex items-start"><i class="fa-solid fa-clock text-phblue mr-2 mt-0.5"></i> Minimum 6 Months Residency</li>
+            </ul>
+
+            <a href="/request?type=Barangay%20Clearance" class="mt-6 block w-full text-center py-2.5 px-4 bg-phblue hover:bg-blue-800 text-white font-semibold text-xs rounded-xl transition-colors">
+              Apply for Clearance <i class="fa-solid fa-arrow-right ml-1"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- 2. Certificate of Residency -->
+        <div class="bg-slate-50 rounded-2xl border border-slate-200 hover:border-emerald-300 transition-all shadow-xs hover:shadow-md flex flex-col p-6">
+          <div class="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center text-xl mb-4">
+            <i class="fa-solid fa-house-user"></i>
+          </div>
+          <span class="text-[11px] font-bold uppercase tracking-wider text-emerald-700">Document 2</span>
+          <h3 class="text-xl font-bold text-slate-900 mt-1 mb-2">Certificate of Residency</h3>
+          <p class="text-xs text-slate-600 leading-relaxed mb-4">
+            Attests to the applicant's bona fide residence in their respective Purok within Barangay Concepcion, Valencia City.
+          </p>
+
+          <div class="border-t border-slate-200 pt-4 mt-auto">
+            <div class="text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Common Purposes:</div>
+            <ul class="text-xs text-slate-600 space-y-1.5 mb-4">
+              <li class="flex items-center"><i class="fa-solid fa-check text-emerald-600 mr-2"></i> Scholarship / University Enrollment</li>
+              <li class="flex items-center"><i class="fa-solid fa-check text-emerald-600 mr-2"></i> Bank Account / E-Wallet Opening</li>
+              <li class="flex items-center"><i class="fa-solid fa-check text-emerald-600 mr-2"></i> Proof of Address for Utilities</li>
+            </ul>
+
+            <div class="text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Requirements:</div>
+            <ul class="text-xs text-slate-600 space-y-1.5">
+              <li class="flex items-start"><i class="fa-solid fa-id-card text-emerald-700 mr-2 mt-0.5"></i> 1 Valid ID showing Concepcion Address</li>
+              <li class="flex items-start"><i class="fa-solid fa-map-pin text-emerald-700 mr-2 mt-0.5"></i> Stated Purok & Years of Residency</li>
+              <li class="flex items-start"><i class="fa-solid fa-receipt text-emerald-700 mr-2 mt-0.5"></i> Cedula (Optional but recommended)</li>
+            </ul>
+
+            <a href="/request?type=Certificate%20of%20Residency" class="mt-6 block w-full text-center py-2.5 px-4 bg-emerald-700 hover:bg-emerald-800 text-white font-semibold text-xs rounded-xl transition-colors">
+              Apply for Residency <i class="fa-solid fa-arrow-right ml-1"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- 3. Certificate of Indigency -->
+        <div class="bg-slate-50 rounded-2xl border border-slate-200 hover:border-amber-300 transition-all shadow-xs hover:shadow-md flex flex-col p-6">
+          <div class="w-12 h-12 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center text-xl mb-4">
+            <i class="fa-solid fa-hand-holding-heart"></i>
+          </div>
+          <span class="text-[11px] font-bold uppercase tracking-wider text-amber-700">Document 3 • Free</span>
+          <h3 class="text-xl font-bold text-slate-900 mt-1 mb-2">Certificate of Indigency</h3>
+          <p class="text-xs text-slate-600 leading-relaxed mb-4">
+            Certifies indigent or low-income status of a resident household for social welfare, medical, and legal assistance programs.
+          </p>
+
+          <div class="border-t border-slate-200 pt-4 mt-auto">
+            <div class="text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Common Purposes:</div>
+            <ul class="text-xs text-slate-600 space-y-1.5 mb-4">
+              <li class="flex items-center"><i class="fa-solid fa-check text-emerald-600 mr-2"></i> Hospital / Medical Assistance (BPH, etc.)</li>
+              <li class="flex items-center"><i class="fa-solid fa-check text-emerald-600 mr-2"></i> DSWD AICS & City Social Welfare Aid</li>
+              <li class="flex items-center"><i class="fa-solid fa-check text-emerald-600 mr-2"></i> Public Attorney's Office (PAO) Legal Aid</li>
+            </ul>
+
+            <div class="text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Requirements:</div>
+            <ul class="text-xs text-slate-600 space-y-1.5">
+              <li class="flex items-start"><i class="fa-solid fa-id-card text-amber-700 mr-2 mt-0.5"></i> Valid ID of Applicant / Representative</li>
+              <li class="flex items-start"><i class="fa-solid fa-hospital text-amber-700 mr-2 mt-0.5"></i> Medical bill / Prescription / Endorsement</li>
+              <li class="flex items-start"><i class="fa-solid fa-tag text-amber-700 mr-2 mt-0.5"></i> <strong>100% FREE OF CHARGE</strong> by law</li>
+            </ul>
+
+            <a href="/request?type=Certificate%20of%20Indigency" class="mt-6 block w-full text-center py-2.5 px-4 bg-amber-700 hover:bg-amber-800 text-white font-semibold text-xs rounded-xl transition-colors">
+              Apply for Indigency <i class="fa-solid fa-arrow-right ml-1"></i>
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- How It Works Flow -->
+  <section class="py-16 bg-slate-50 border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-2xl mx-auto mb-12">
+        <span class="text-xs font-bold text-phblue uppercase tracking-widest">Simple Citizen Flow</span>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-2">How It Works in 4 Easy Steps</h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+        
+        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs relative">
+          <div class="w-10 h-10 rounded-full bg-blue-100 text-phblue font-extrabold flex items-center justify-center text-sm mb-4">1</div>
+          <h4 class="font-bold text-base text-slate-900 mb-1.5">Fill Online Form</h4>
+          <p class="text-xs text-slate-600">Select certificate type, enter your personal details, and upload your valid ID.</p>
+        </div>
+
+        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs relative">
+          <div class="w-10 h-10 rounded-full bg-blue-100 text-phblue font-extrabold flex items-center justify-center text-sm mb-4">2</div>
+          <h4 class="font-bold text-base text-slate-900 mb-1.5">Get Control Number</h4>
+          <p class="text-xs text-slate-600">Receive your unique tracking string (BC-YYYYMMDD-XXXX) and an instant SMS confirmation.</p>
+        </div>
+
+        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs relative">
+          <div class="w-10 h-10 rounded-full bg-blue-100 text-phblue font-extrabold flex items-center justify-center text-sm mb-4">3</div>
+          <h4 class="font-bold text-base text-slate-900 mb-1.5">Barangay Review</h4>
+          <p class="text-xs text-slate-600">Barangay officials verify your records. You'll receive an SMS once ready for pickup.</p>
+        </div>
+
+        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs relative">
+          <div class="w-10 h-10 rounded-full bg-blue-100 text-phblue font-extrabold flex items-center justify-center text-sm mb-4">4</div>
+          <h4 class="font-bold text-base text-slate-900 mb-1.5">Claim & Pickup</h4>
+          <p class="text-xs text-slate-600">Visit Barangay Hall with your original valid ID to sign, dry-seal, and receive your document.</p>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Barangay Officials & BHERT Directory Section -->
+  <section id="officials" class="py-16 bg-slate-100/70 border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-12">
+        <span class="text-xs font-bold text-phblue uppercase tracking-widest bg-blue-50 border border-blue-200 px-3 py-1 rounded-full">
+          Barangay Concepcion Directory
+        </span>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-3">Barangay Officials & BHERT Emergency Hotlines</h2>
+        <p class="text-sm text-slate-600 mt-2">
+          City of Valencia, Province of Bukidnon • Barangay Health Emergency Response Team (BHERT) Directory
+        </p>
+      </div>
+
+      <!-- Punong Barangay Hero Card -->
+      <div class="max-w-xl mx-auto mb-10">
+        <div class="bg-gradient-to-r from-blue-950 via-phblue to-blue-900 text-white rounded-2xl p-6 shadow-lg border-2 border-phgold/30 text-center relative overflow-hidden">
+          <div class="inline-block bg-phgold text-blue-950 text-[10px] uppercase font-black px-3 py-1 rounded-full mb-3 tracking-wider shadow-xs">
+            Punong Barangay & BHERT Chairman
+          </div>
+          <h3 class="text-xl sm:text-2xl font-black tracking-tight">HON. MERLYN G. ANTIGA</h3>
+          <p class="text-xs text-blue-200 mt-1">Head of Local Government • Barangay Concepcion</p>
+          <div class="mt-4 pt-4 border-t border-blue-800 flex items-center justify-center space-x-2 text-sm font-bold text-yellow-300">
+            <i class="fa-solid fa-phone"></i>
+            <a href="tel:09061822959" class="hover:underline font-mono">0906-182-2959</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sangguniang Barangay Members (Kagawads) -->
+      <div class="mb-10">
+        <div class="flex items-center space-x-2 mb-4">
+          <div class="w-2.5 h-2.5 rounded-full bg-phblue"></div>
+          <h3 class="text-base font-bold text-slate-800 uppercase tracking-wide">Sangguniang Barangay Members & BHERT</h3>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+          
+          <div class="bg-white rounded-xl p-4 border border-slate-200 shadow-xs hover:border-blue-300 transition-colors">
+            <div class="text-[10px] font-bold text-blue-700 uppercase">Barangay Kagawad • BHERT Co-Chairman</div>
+            <div class="font-extrabold text-sm text-slate-900 mt-1">Hon. Angela B. Primor</div>
+            <div class="text-xs text-slate-600 mt-2 flex items-center space-x-1.5 font-mono">
+              <i class="fa-solid fa-phone text-phblue text-[11px]"></i>
+              <a href="tel:09307072544" class="hover:text-phblue">0930-707-2544</a>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-xl p-4 border border-slate-200 shadow-xs hover:border-blue-300 transition-colors">
+            <div class="text-[10px] font-bold text-slate-500 uppercase">Barangay Kagawad • BHERT Member</div>
+            <div class="font-extrabold text-sm text-slate-900 mt-1">Hon. Pelagio C. Montemor</div>
+            <div class="text-xs text-slate-600 mt-2 flex items-center space-x-1.5 font-mono">
+              <i class="fa-solid fa-phone text-phblue text-[11px]"></i>
+              <a href="tel:09971427063" class="hover:text-phblue">0997-142-7063</a>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-xl p-4 border border-slate-200 shadow-xs hover:border-blue-300 transition-colors">
+            <div class="text-[10px] font-bold text-slate-500 uppercase">Barangay Kagawad • BHERT Member</div>
+            <div class="font-extrabold text-sm text-slate-900 mt-1">Hon. Ireneo S. Sombilon, Jr.</div>
+            <div class="text-xs text-slate-600 mt-2 flex items-center space-x-1.5 font-mono">
+              <i class="fa-solid fa-phone text-phblue text-[11px]"></i>
+              <a href="tel:09066723402" class="hover:text-phblue">0906-672-3402</a>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-xl p-4 border border-slate-200 shadow-xs hover:border-blue-300 transition-colors">
+            <div class="text-[10px] font-bold text-slate-500 uppercase">Barangay Kagawad • BHERT Member</div>
+            <div class="font-extrabold text-sm text-slate-900 mt-1">Hon. Alexander S. Jarapan</div>
+            <div class="text-xs text-slate-600 mt-2 flex items-center space-x-1.5 font-mono">
+              <i class="fa-solid fa-phone text-phblue text-[11px]"></i>
+              <a href="tel:09365078532" class="hover:text-phblue">0936-507-8532</a>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-xl p-4 border border-slate-200 shadow-xs hover:border-blue-300 transition-colors">
+            <div class="text-[10px] font-bold text-slate-500 uppercase">Barangay Kagawad • BHERT Member</div>
+            <div class="font-extrabold text-sm text-slate-900 mt-1">Hon. Ruben A. Agal</div>
+            <div class="text-xs text-slate-600 mt-2 flex items-center space-x-1.5 font-mono">
+              <i class="fa-solid fa-phone text-phblue text-[11px]"></i>
+              <a href="tel:09535424692" class="hover:text-phblue">0953-542-4692</a>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-xl p-4 border border-slate-200 shadow-xs hover:border-blue-300 transition-colors">
+            <div class="text-[10px] font-bold text-slate-500 uppercase">Barangay Kagawad • BHERT Member</div>
+            <div class="font-extrabold text-sm text-slate-900 mt-1">Hon. Luzviminda P. Santillan</div>
+            <div class="text-xs text-slate-600 mt-2 flex items-center space-x-1.5 font-mono">
+              <i class="fa-solid fa-phone text-phblue text-[11px]"></i>
+              <a href="tel:09264094149" class="hover:text-phblue">0926-409-4149</a>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-xl p-4 border border-slate-200 shadow-xs hover:border-blue-300 transition-colors">
+            <div class="text-[10px] font-bold text-slate-500 uppercase">Barangay Kagawad • BHERT Member</div>
+            <div class="font-extrabold text-sm text-slate-900 mt-1">Hon. Macrina E. Bandos</div>
+            <div class="text-xs text-slate-600 mt-2 flex items-center space-x-1.5 font-mono">
+              <i class="fa-solid fa-phone text-phblue text-[11px]"></i>
+              <a href="tel:09354477620" class="hover:text-phblue">0935-447-7620</a>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-xl p-4 border border-slate-200 shadow-xs hover:border-blue-300 transition-colors">
+            <div class="text-[10px] font-bold text-blue-700 uppercase">SK Chairperson • BHERT Member</div>
+            <div class="font-extrabold text-sm text-slate-900 mt-1">Hon. John Lloyd S. Sanchez</div>
+            <div class="text-xs text-slate-600 mt-2 flex items-center space-x-1.5 font-mono">
+              <i class="fa-solid fa-phone text-phblue text-[11px]"></i>
+              <a href="tel:09927611453" class="hover:text-phblue">0992-761-1453</a>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-xl p-4 border border-slate-200 shadow-xs hover:border-blue-300 transition-colors">
+            <div class="text-[10px] font-bold text-emerald-700 uppercase">IPMR Representative • BHERT Member</div>
+            <div class="font-extrabold text-sm text-slate-900 mt-1">Hon. Virgilio S. Sambahay</div>
+            <div class="text-xs text-slate-600 mt-2 flex items-center space-x-1.5 font-mono">
+              <i class="fa-solid fa-phone text-phblue text-[11px]"></i>
+              <a href="tel:09125667620" class="hover:text-phblue">0912-566-7620</a>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-xl p-4 border border-slate-200 shadow-xs hover:border-blue-300 transition-colors">
+            <div class="text-[10px] font-bold text-indigo-700 uppercase">Barangay Secretary</div>
+            <div class="font-extrabold text-sm text-slate-900 mt-1">Hon. Redin T. Butanas</div>
+            <div class="text-xs text-slate-600 mt-2 flex items-center space-x-1.5">
+              <i class="fa-solid fa-building text-phblue text-[11px]"></i>
+              <span>Barangay Administration</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Health, Tanod & Community Emergency Personnel -->
+      <div class="mt-10">
+        <div class="flex items-center space-x-2 mb-4">
+          <div class="w-2.5 h-2.5 rounded-full bg-emerald-600"></div>
+          <h3 class="text-base font-bold text-slate-800 uppercase tracking-wide">Emergency Health & Community Officers</h3>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          
+          <div class="bg-white rounded-xl p-4 border border-slate-200 shadow-xs">
+            <div class="text-[10px] font-bold text-emerald-700 uppercase">NDP Nurse • BHERT Member</div>
+            <div class="font-bold text-xs text-slate-900 mt-1">Mrs. Holy Christine S. Parista, RN</div>
+            <div class="text-xs text-slate-600 mt-2 flex items-center space-x-1.5 font-mono">
+              <i class="fa-solid fa-phone text-emerald-600 text-[11px]"></i>
+              <a href="tel:09360450473" class="hover:text-emerald-700">0936-045-0473</a>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-xl p-4 border border-slate-200 shadow-xs">
+            <div class="text-[10px] font-bold text-emerald-700 uppercase">Rural Health Midwife • BHERT</div>
+            <div class="font-bold text-xs text-slate-900 mt-1">Mrs. Adelfa D. Montemor</div>
+            <div class="text-xs text-slate-600 mt-2 flex items-center space-x-1.5 font-mono">
+              <i class="fa-solid fa-phone text-emerald-600 text-[11px]"></i>
+              <a href="tel:09173106309" class="hover:text-emerald-700">0917-310-6309</a>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-xl p-4 border border-slate-200 shadow-xs">
+            <div class="text-[10px] font-bold text-emerald-700 uppercase">Barangay Health Worker (BHW)</div>
+            <div class="font-bold text-xs text-slate-900 mt-1">Mrs. Arlene V. Jaso</div>
+            <div class="text-xs text-slate-600 mt-2 flex items-center space-x-1.5 font-mono">
+              <i class="fa-solid fa-phone text-emerald-600 text-[11px]"></i>
+              <a href="tel:09924704202" class="hover:text-emerald-700">0992-470-4202</a>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-xl p-4 border border-slate-200 shadow-xs">
+            <div class="text-[10px] font-bold text-emerald-700 uppercase">Barangay Nutrition Scholar (BNS)</div>
+            <div class="font-bold text-xs text-slate-900 mt-1">Mrs. Paciana Dumbase</div>
+            <div class="text-xs text-slate-600 mt-2 flex items-center space-x-1.5 font-mono">
+              <i class="fa-solid fa-phone text-emerald-600 text-[11px]"></i>
+              <a href="tel:09676070061" class="hover:text-emerald-700">0967-607-0061</a>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-xl p-4 border border-slate-200 shadow-xs">
+            <div class="text-[10px] font-bold text-emerald-700 uppercase">Barangay Nutrition Scholar (BNS)</div>
+            <div class="font-bold text-xs text-slate-900 mt-1">Mrs. Irene I. Ingente</div>
+            <div class="text-xs text-slate-500 mt-2 flex items-center space-x-1.5">
+              <i class="fa-solid fa-heart-pulse text-emerald-600 text-[11px]"></i>
+              <span>Nutrition Services</span>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-xl p-4 border border-slate-200 shadow-xs">
+            <div class="text-[10px] font-bold text-blue-700 uppercase">Tanod President • BHERT Member</div>
+            <div class="font-bold text-xs text-slate-900 mt-1">Mr. Jhoniel J. Agal</div>
+            <div class="text-xs text-slate-600 mt-2 flex items-center space-x-1.5 font-mono">
+              <i class="fa-solid fa-phone text-phblue text-[11px]"></i>
+              <a href="tel:09977961499" class="hover:text-phblue">0997-796-1499</a>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-xl p-4 border border-slate-200 shadow-xs">
+            <div class="text-[10px] font-bold text-blue-700 uppercase">Purok Leader (Purok 1A) • BHERT</div>
+            <div class="font-bold text-xs text-slate-900 mt-1">Mr. Luciano B. Monteza</div>
+            <div class="text-xs text-slate-600 mt-2 flex items-center space-x-1.5 font-mono">
+              <i class="fa-solid fa-phone text-phblue text-[11px]"></i>
+              <a href="tel:09057629124" class="hover:text-phblue">0905-762-9124</a>
+            </div>
+          </div>
+
+          <div class="bg-blue-50/70 rounded-xl p-4 border border-blue-200 shadow-xs flex flex-col justify-between">
+            <div>
+              <div class="text-[10px] font-bold text-phblue uppercase">Official Facebook Page</div>
+              <div class="font-bold text-xs text-slate-900 mt-1">Barangay Concepcion</div>
+              <div class="text-[11px] text-slate-600 mt-0.5">Stay updated on barangay announcements</div>
+            </div>
+            <div class="text-xs text-phblue font-semibold mt-2 flex items-center space-x-1.5">
+              <i class="fa-brands fa-facebook text-sm"></i>
+              <span>Official FB Page</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Barangay Hall Location & Office Hours -->
+  <section class="py-12 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="bg-slate-900 rounded-3xl text-white p-8 sm:p-12 shadow-xl flex flex-col md:flex-row items-center justify-between gap-8">
+        <div class="space-y-3">
+          <span class="text-xs font-bold text-phgold uppercase tracking-widest">Office Information</span>
+          <h3 class="text-2xl sm:text-3xl font-extrabold">Barangay Concepcion Hall</h3>
+          <p class="text-slate-300 text-sm max-w-xl">
+            Purok 3, Barangay Concepcion, Valencia City, Bukidnon 8709<br/>
+            Office Hours: <strong class="text-white">Monday to Friday, 8:00 AM – 5:00 PM</strong> (Except Holidays)
+          </p>
+          <div class="flex flex-wrap gap-4 text-xs text-slate-300 pt-2">
+            <div><i class="fa-solid fa-phone mr-1.5 text-phgold"></i> 0906-182-2959 (Captain) / 0930-707-2544</div>
+            <div><i class="fa-brands fa-facebook mr-1.5 text-phgold"></i> Barangay Concepcion (Official FB Page)</div>
+            <div><i class="fa-solid fa-envelope mr-1.5 text-phgold"></i> concepcion66barangay@gmail.com</div>
+          </div>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
+          <a href="/request" class="px-6 py-3 bg-phgold hover:bg-yellow-400 text-slate-950 font-bold rounded-xl text-center text-sm transition-colors">
+            Request Now
+          </a>
+          <a href="/track" class="px-6 py-3 bg-slate-800 hover:bg-slate-700 text-white font-semibold rounded-xl text-center text-sm border border-slate-700 transition-colors">
+            Track Status
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="mt-auto bg-slate-900 border-t border-slate-800 text-slate-400 text-xs py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center space-x-3">
+        <img src="/images/brgy-logo.png" alt="Concepcion Logo" class="w-8 h-8 object-contain">
+        <div>
+          <div class="font-bold text-slate-200">Barangay Concepcion • City of Valencia, Bukidnon</div>
+          <div class="text-[11px] text-slate-500">Official Online Request and Tracking Portal • RA 10173 Data Privacy Act Compliant</div>
+        </div>
+      </div>
+      <div class="flex items-center space-x-4">
+        <a href="/admin" class="hover:text-slate-200 transition-colors"><i class="fa-solid fa-user-lock mr-1"></i> Admin Portal</a>
+        <span>•</span>
+        <span class="text-slate-500">Powered by Semaphore SMS Gateway</span>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
+

@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <defs>
+    <radialGradient id="phGold" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFF59D"/>
+      <stop offset="70%" stop-color="#FBC02D"/>
+      <stop offset="100%" stop-color="#F57F17"/>
+    </radialGradient>
+  </defs>
+  <circle cx="100" cy="100" r="95" fill="#FFFFFF" stroke="#0038A8" stroke-width="3"/>
+  <circle cx="100" cy="100" r="86" fill="#F8FAFC" stroke="#CE1126" stroke-width="1.5"/>
+  <!-- Circular text -->
+  <path id="phTextPath" d="M 100,24 A 76,76 0 1,1 99.9,24" fill="none"/>
+  <text font-family="'Arial Black', Arial, sans-serif" font-size="9" font-weight="bold" fill="#0038A8" letter-spacing="1.2">
+    <textPath href="#phTextPath" startOffset="50%" text-anchor="middle">
+      REPUBLIC OF THE PHILIPPINES
+    </textPath>
+  </text>
+  <!-- Philippine Shield -->
+  <path d="M 65,70 L 135,70 L 135,110 Q 135,145 100,160 Q 65,145 65,110 Z" fill="#FFFFFF" stroke="#333333" stroke-width="2"/>
+  <!-- Blue Left Half -->
+  <path d="M 65,70 L 100,70 L 100,159.5 Q 65,145 65,110 Z" fill="#0038A8"/>
+  <!-- Red Right Half -->
+  <path d="M 100,70 L 135,70 L 135,110 Q 135,145 100,159.5 Z" fill="#CE1126"/>
+  <!-- Center White Oval / Sun -->
+  <ellipse cx="100" cy="105" rx="20" ry="24" fill="#FFFFFF" stroke="#FBC02D" stroke-width="1.5"/>
+  <circle cx="100" cy="105" r="9" fill="url(#phGold)"/>
+  <!-- 8 Sun Rays -->
+  <path d="M 100,89 L 100,93 M 100,117 L 100,121 M 84,105 L 88,105 M 112,105 L 116,105 M 89,94 L 92,97 M 108,113 L 111,116 M 89,116 L 92,113 M 108,97 L 111,94" stroke="#F57F17" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- Three Stars (Luzon, Visayas, Mindanao) -->
+  <polygon points="100,74 101.5,78 106,78 102.5,80.5 104,85 100,82 96,85 97.5,80.5 94,78 98.5,78" fill="#FBC02D"/>
+  <polygon points="76,112 77.5,116 82,116 78.5,118.5 80,123 76,120 72,123 73.5,118.5 70,116 74.5,116" fill="#FBC02D"/>
+  <polygon points="124,112 125.5,116 130,116 126.5,118.5 128,123 124,120 120,123 121.5,118.5 118,116 122.5,116" fill="#FBC02D"/>
+  <!-- Bottom Ribbon -->
+  <rect x="68" y="156" width="64" height="13" rx="2" fill="#E2E8F0" stroke="#64748B" stroke-width="1"/>
+  <text x="100" y="165.5" font-family="Arial, sans-serif" font-size="7" font-weight="bold" fill="#0F172A" text-anchor="middle">REPUBLIKA NG PILIPINAS</text>
+</svg>
+

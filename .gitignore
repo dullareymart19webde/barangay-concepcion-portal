@@ -1,0 +1,11 @@
+node_modules/
+.env
+data/*.sqlite*
+uploads/valid_ids/*
+!uploads/valid_ids/.gitkeep
+.DS_Store
+Thumbs.db
+serviceAccountKey.json
+*firebase-adminsdk*.json
+.vercel
+

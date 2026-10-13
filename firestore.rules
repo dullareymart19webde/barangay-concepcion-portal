@@ -1,0 +1,487 @@
+rules_version = '2';
+
+// ===============================================================
+// Assumed Data Model
+// ===============================================================
+//
+// Application: Barangay E-Certificate Portal
+// Jurisdiction: Barangay Concepcion, Valencia City, Bukidnon
+//
+// Collection: requests
+// Document ID: control_number (e.g., BC-20261014-8A4F) or unique ID
+// Fields:
+//   - control_number: string (required, format BC-YYYYMMDD-XXXX, immutable)
+//   - cert_type: string (required, in ['Barangay Clearance', 'Certificate of Residency', 'Certificate of Indigency'])
+//   - first_name: string (required, 1-80 chars)
+//   - last_name: string (required, 1-80 chars)
+//   - middle_name: string (optional, 0-80 chars)
+//   - suffix: string (optional, 0-20 chars)
+//   - purok: string (required, 1-100 chars)
+//   - contact_number: string (required, Philippine mobile 10-20 chars)
+//   - privacyConsent: bool (required on create, must be true, immutable)
+//   - purpose: string (required, 1-500 chars)
+//   - birth_date: string or timestamp (optional, 0-30 chars)
+//   - civil_status: string (optional, in ['Single', 'Married', 'Widowed', 'Separated', 'Divorced'])
+//   - gender: string (optional, in ['Male', 'Female', 'Other'])
+//   - years_of_residency: number (optional, 0-150)
+//   - cedula_no: string (optional, 0-50 chars)
+//   - valid_id_path: string (optional, 0-500 chars)
+//   - status: string (required, in ['Pending Review', 'Processing', 'Ready for Pickup', 'Released', 'Rejected'])
+//   - admin_remarks: string (optional, 0-1000 chars)
+//   - created_at: timestamp or string (optional, immutable)
+//   - updated_at: timestamp or string (optional)
+//
+// Collection: status_logs (Top-level or subcollection under requests)
+// Document ID: auto-generated ID
+// Fields:
+//   - request_id: string or number (optional, reference to request)
+//   - control_number: string (optional, format BC-YYYYMMDD-XXXX)
+//   - old_status: string (optional, previous status)
+//   - new_status: string (required, valid status)
+//   - remarks: string (optional, 0-1000 chars)
+//   - changed_by: string (optional, 1-100 chars)
+//   - created_at: timestamp or string (optional)
+//
+// Collection: sms_logs
+// Document ID: auto-generated ID
+// Fields:
+//   - request_id: string or number (optional, reference to request)
+//   - recipient_number: string (required, 10-25 chars)
+//   - message: string (required, 1-1000 chars)
+//   - api_response: string or map (optional)
+//   - status: string (required, in ['SENT', 'FAILED', 'MOCK_SENT'])
+//   - created_at: timestamp or string (optional)
+//
+// Collection: admins
+// Document ID: Firebase Auth UID or username
+// Fields:
+//   - username: string (required, 3-50 chars, immutable)
+//   - full_name: string (required, 2-100 chars)
+//   - role: string (required, in ['Admin', 'admin', 'Barangay Secretary', 'secretary', 'Staff', 'staff'])
+//   - email: string (optional, valid email format)
+//   - is_active: bool (optional)
+//   - created_at: timestamp or string (optional, immutable)
+//   - updated_at: timestamp or string (optional)
+//
+// ===============================================================
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ===============================================================
+    // Helper Functions
+    // ===============================================================
+
+    // Check if user is authenticated
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // Role-Based Access Control (RBAC):
+    // Verifies admin authority from Firebase Auth Custom Claims or registered in admins collection
+    function isAdmin() {
+      return isAuthenticated() && (
+        request.auth.token.admin == true ||
+        (request.auth.token.keys().hasAny(['role']) &&
+         request.auth.token.role in ['Admin', 'admin', 'Barangay Secretary', 'secretary', 'Staff', 'staff']) ||
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid))
+      );
+    }
+
+    // Verify user owns the document by auth UID
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    // Validate that document contains only allowed fields
+    function hasOnlyAllowedFields(fields) {
+      return request.resource.data.keys().hasOnly(fields);
+    }
+
+    // Validate required fields exist in request payload
+    function hasRequiredFields(fields) {
+      return request.resource.data.keys().hasAll(fields);
+    }
+
+    // Ensure critical fields remain unchanged during update
+    function areImmutableFieldsUnchanged(fields) {
+      return !request.resource.data.diff(resource.data).affectedKeys().hasAny(fields);
+    }
+
+    // Validate string length between minimum and maximum bounds
+    function validStringLength(str, minLen, maxLen) {
+      return str is string && str.size() >= minLen && str.size() <= maxLen;
+    }
+
+    // Validate email format
+    function isValidEmail(email) {
+      return email is string &&
+             email.size() <= 120 &&
+             email.matches('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$');
+    }
+
+    // Validate official Barangay Concepcion Control Number format: BC-YYYYMMDD-XXXX
+    function isValidControlNumber(cn) {
+      return cn is string &&
+             cn.size() == 16 &&
+             cn.matches('^[bB][cC]-[0-9]{8}-[a-zA-Z0-9]{4}$');
+    }
+
+    // Retrieve control number handling both snake_case and camelCase
+    function getControlNumber(data) {
+      return 'control_number' in data ? data.control_number :
+             ('controlNumber' in data ? data.controlNumber : '');
+    }
+
+    // Validate Philippine mobile phone number format
+    function isValidPhMobile(phone) {
+      return phone is string &&
+             phone.size() >= 10 &&
+             phone.size() <= 20 &&
+             phone.matches('^(\\+?63|0)9[0-9]{9}$');
+    }
+
+    // Retrieve contact number handling both snake_case and camelCase
+    function getContactNumber(data) {
+      return 'contact_number' in data ? data.contact_number :
+             ('contactNumber' in data ? data.contactNumber : '');
+    }
+
+    // Retrieve certificate type handling both snake_case and camelCase
+    function getCertType(data) {
+      return 'cert_type' in data ? data.cert_type :
+             ('certType' in data ? data.certType : '');
+    }
+
+    // Retrieve first name handling both snake_case and camelCase
+    function getFirstName(data) {
+      return 'first_name' in data ? data.first_name :
+             ('firstName' in data ? data.firstName : '');
+    }
+
+    // Retrieve last name handling both snake_case and camelCase
+    function getLastName(data) {
+      return 'last_name' in data ? data.last_name :
+             ('lastName' in data ? data.lastName : '');
+    }
+
+    // Allowed Certificate Types
+    function isAllowedCertType(certType) {
+      return certType in [
+        'Barangay Clearance',
+        'Certificate of Residency',
+        'Certificate of Indigency'
+      ];
+    }
+
+    // Allowed Application Statuses
+    function isAllowedStatus(status) {
+      return status in [
+        'Pending Review',
+        'Processing',
+        'Ready for Pickup',
+        'Released',
+        'Rejected'
+      ];
+    }
+
+    // Allowed Admin Roles
+    function isAllowedAdminRole(role) {
+      return role in [
+        'Admin',
+        'admin',
+        'Barangay Secretary',
+        'secretary',
+        'Staff',
+        'staff'
+      ];
+    }
+
+    // ===============================================================
+    // Domain Validators
+    // ===============================================================
+
+    // List of allowed fields for requests collection (supports snake_case and camelCase)
+    function allowedRequestKeys() {
+      return [
+        'control_number', 'controlNumber',
+        'cert_type', 'certType',
+        'first_name', 'firstName',
+        'middle_name', 'middleName',
+        'last_name', 'lastName',
+        'suffix',
+        'purok',
+        'birth_date', 'birthDate',
+        'civil_status', 'civilStatus',
+        'gender',
+        'contact_number', 'contactNumber',
+        'purpose',
+        'years_of_residency', 'yearsOfResidency',
+        'cedula_no', 'cedulaNo',
+        'valid_id_path', 'validIdPath',
+        'status',
+        'admin_remarks', 'adminRemarks',
+        'privacyConsent', 'privacy_consent',
+        'created_at', 'createdAt',
+        'updated_at', 'updatedAt',
+        'tracking_url', 'trackingUrl',
+        'qr_code', 'qrCode',
+        'applicant_name', 'applicantName'
+      ];
+    }
+
+    // Base validation for requests fields
+    function isValidRequestBase(data) {
+      let cn = getControlNumber(data);
+      let ct = getCertType(data);
+      let fn = getFirstName(data);
+      let ln = getLastName(data);
+      let phone = getContactNumber(data);
+
+      return hasOnlyAllowedFields(allowedRequestKeys()) &&
+             isValidControlNumber(cn) &&
+             isAllowedCertType(ct) &&
+             validStringLength(fn, 1, 80) &&
+             validStringLength(ln, 1, 80) &&
+             ('purok' in data && validStringLength(data.purok, 1, 100)) &&
+             isValidPhMobile(phone) &&
+             ('purpose' in data && validStringLength(data.purpose, 1, 500)) &&
+             // Optional middle name
+             (!('middle_name' in data) || (data.middle_name is string && data.middle_name.size() <= 80)) &&
+             (!('middleName' in data) || (data.middleName is string && data.middleName.size() <= 80)) &&
+             // Optional suffix
+             (!('suffix' in data) || (data.suffix is string && data.suffix.size() <= 20)) &&
+             // Optional birth date
+             (!('birth_date' in data) || (data.birth_date is string && data.birth_date.size() <= 30) || (data.birth_date is timestamp)) &&
+             (!('birthDate' in data) || (data.birthDate is string && data.birthDate.size() <= 30) || (data.birthDate is timestamp)) &&
+             // Optional civil status
+             (!('civil_status' in data) || (data.civil_status is string && data.civil_status in ['Single', 'Married', 'Widowed', 'Separated', 'Divorced'])) &&
+             (!('civilStatus' in data) || (data.civilStatus is string && data.civilStatus in ['Single', 'Married', 'Widowed', 'Separated', 'Divorced'])) &&
+             // Optional gender
+             (!('gender' in data) || (data.gender is string && data.gender in ['Male', 'Female', 'Other'])) &&
+             // Optional residency years
+             (!('years_of_residency' in data) || ((data.years_of_residency is int || data.years_of_residency is float) && data.years_of_residency >= 0 && data.years_of_residency <= 150)) &&
+             (!('yearsOfResidency' in data) || ((data.yearsOfResidency is int || data.yearsOfResidency is float) && data.yearsOfResidency >= 0 && data.yearsOfResidency <= 150)) &&
+             // Optional cedula number
+             (!('cedula_no' in data) || (data.cedula_no is string && data.cedula_no.size() <= 50)) &&
+             (!('cedulaNo' in data) || (data.cedulaNo is string && data.cedulaNo.size() <= 50)) &&
+             // Optional valid ID path / URL
+             (!('valid_id_path' in data) || (data.valid_id_path is string && data.valid_id_path.size() <= 500)) &&
+             (!('validIdPath' in data) || (data.validIdPath is string && data.validIdPath.size() <= 500)) &&
+             // Optional admin remarks
+             (!('admin_remarks' in data) || (data.admin_remarks is string && data.admin_remarks.size() <= 1000)) &&
+             (!('adminRemarks' in data) || (data.adminRemarks is string && data.adminRemarks.size() <= 1000));
+    }
+
+    // Validation for new request creation
+    function isValidRequestCreate(data, isAdminCaller) {
+      let privacyOk = ('privacyConsent' in data && (data.privacyConsent == true || data.privacyConsent == 'true')) ||
+                      ('privacy_consent' in data && (data.privacy_consent == true || data.privacy_consent == 'true'));
+
+      let statusOk = !('status' in data) ||
+                     (isAdminCaller ? isAllowedStatus(data.status) : data.status == 'Pending Review');
+
+      return isValidRequestBase(data) &&
+             privacyOk &&
+             statusOk;
+    }
+
+    // Validation for admin updating an existing request
+    function isValidRequestUpdate(data) {
+      return isValidRequestBase(data) &&
+             ('status' in data && isAllowedStatus(data.status)) &&
+             areImmutableFieldsUnchanged([
+               'control_number', 'controlNumber',
+               'created_at', 'createdAt',
+               'privacyConsent', 'privacy_consent'
+             ]);
+    }
+
+    // Validation for status logs audit trail
+    function isValidStatusLog(data) {
+      let allowedKeys = [
+        'request_id', 'requestId',
+        'control_number', 'controlNumber',
+        'old_status', 'oldStatus',
+        'new_status', 'newStatus',
+        'remarks',
+        'changed_by', 'changedBy',
+        'created_at', 'createdAt', 'timestamp'
+      ];
+
+      let newStatus = 'new_status' in data ? data.new_status :
+                      ('newStatus' in data ? data.newStatus : '');
+
+      return hasOnlyAllowedFields(allowedKeys) &&
+             isAllowedStatus(newStatus) &&
+             (!('old_status' in data) || data.old_status == null || isAllowedStatus(data.old_status)) &&
+             (!('oldStatus' in data) || data.oldStatus == null || isAllowedStatus(data.oldStatus)) &&
+             (!('remarks' in data) || data.remarks == null || (data.remarks is string && data.remarks.size() <= 1000)) &&
+             (!('changed_by' in data) || (data.changed_by is string && data.changed_by.size() <= 100)) &&
+             (!('changedBy' in data) || (data.changedBy is string && data.changedBy.size() <= 100)) &&
+             (!('control_number' in data) || isValidControlNumber(data.control_number)) &&
+             (!('controlNumber' in data) || isValidControlNumber(data.controlNumber));
+    }
+
+    // Validation for SMS logs gateway transmissions
+    function isValidSmsLog(data) {
+      let allowedKeys = [
+        'request_id', 'requestId',
+        'recipient_number', 'recipientNumber',
+        'message',
+        'api_response', 'apiResponse',
+        'status',
+        'created_at', 'createdAt'
+      ];
+
+      let recipient = 'recipient_number' in data ? data.recipient_number :
+                      ('recipientNumber' in data ? data.recipientNumber : '');
+
+      return hasOnlyAllowedFields(allowedKeys) &&
+             recipient is string && recipient.size() >= 10 && recipient.size() <= 25 &&
+             ('message' in data && data.message is string && data.message.size() >= 1 && data.message.size() <= 1000) &&
+             ('status' in data && data.status in ['SENT', 'FAILED', 'MOCK_SENT']) &&
+             (!('api_response' in data) || (data.api_response is string && data.api_response.size() <= 2000) || data.api_response is map) &&
+             (!('apiResponse' in data) || (data.apiResponse is string && data.apiResponse.size() <= 2000) || data.apiResponse is map);
+    }
+
+    // Validation for Admins / Barangay Staff records
+    function isValidAdmin(data) {
+      let allowedKeys = [
+        'username',
+        'password_hash', 'passwordHash',
+        'full_name', 'fullName',
+        'role',
+        'email',
+        'is_active', 'isActive',
+        'created_at', 'createdAt',
+        'updated_at', 'updatedAt'
+      ];
+
+      let fullName = 'full_name' in data ? data.full_name :
+                     ('fullName' in data ? data.fullName : '');
+
+      return hasOnlyAllowedFields(allowedKeys) &&
+             ('username' in data && validStringLength(data.username, 3, 50)) &&
+             ('role' in data && isAllowedAdminRole(data.role)) &&
+             fullName is string && fullName.size() >= 2 && fullName.size() <= 100 &&
+             (!('email' in data) || isValidEmail(data.email)) &&
+             (!('is_active' in data) || data.is_active is bool) &&
+             (!('isActive' in data) || data.isActive is bool);
+    }
+
+    // ===============================================================
+    // Root Match: Default Deny All
+    // ===============================================================
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // ===============================================================
+    // Collection: requests
+    // ===============================================================
+    match /requests/{requestId} {
+
+      // Public Residents: Lookup allowed ONLY by matching unique control number
+      // Admins: Full read access to single documents
+      allow get: if isAdmin() || (
+        ('control_number' in resource.data && resource.data.control_number == requestId) ||
+        ('controlNumber' in resource.data && resource.data.controlNumber == requestId)
+      );
+
+      // List queries: Restricted strictly to Authenticated Admins.
+      // Defends against Public List Exploit and resident PII harvesting.
+      allow list: if isAdmin();
+
+      // Creation:
+      // - Public Residents: Can create if data is valid, status is Pending Review,
+      //   and document ID matches the unique control number.
+      // - Admins: Can create requests with any valid ID.
+      allow create: if (isAdmin() || (requestId == getControlNumber(request.resource.data))) &&
+                       isValidRequestCreate(request.resource.data, isAdmin());
+
+      // Updates:
+      // - Admins only: Can update status, remarks, and manage requests.
+      // - Public/Residents: Strictly forbidden from modifying existing requests.
+      allow update: if isAdmin() && isValidRequestUpdate(request.resource.data);
+
+      // Deletions:
+      // - Admins only. Residents cannot delete applications.
+      allow delete: if isAdmin();
+
+      // -------------------------------------------------------------
+      // Subcollection: requests/{requestId}/status_logs
+      // -------------------------------------------------------------
+      match /status_logs/{logId} {
+        // Resident can read audit trail for their specific looked-up request; Admin can read all
+        allow read: if isAdmin() || (
+          ('control_number' in get(/databases/$(database)/documents/requests/$(requestId)).data &&
+           get(/databases/$(database)/documents/requests/$(requestId)).data.control_number == requestId) ||
+          ('controlNumber' in get(/databases/$(database)/documents/requests/$(requestId)).data &&
+           get(/databases/$(database)/documents/requests/$(requestId)).data.controlNumber == requestId)
+        );
+
+        // Append-only audit logs created by system/admin
+        allow create: if isAdmin() && isValidStatusLog(request.resource.data);
+
+        // Immutability: No updates or deletions allowed on audit logs
+        allow update, delete: if false;
+      }
+    }
+
+    // ===============================================================
+    // Collection: status_logs (Top-Level)
+    // ===============================================================
+    match /status_logs/{logId} {
+      // Admin audit read; Individual log get allowed if tied to a valid control number
+      allow get: if isAdmin() || (
+        ('control_number' in resource.data && isValidControlNumber(resource.data.control_number)) ||
+        ('controlNumber' in resource.data && isValidControlNumber(resource.data.controlNumber))
+      );
+
+      // Collection list restricted to admins
+      allow list: if isAdmin();
+
+      // Append-only created by system/admin
+      allow create: if isAdmin() && isValidStatusLog(request.resource.data);
+
+      // Immutability: No updates or deletions allowed
+      allow update, delete: if false;
+    }
+
+    // ===============================================================
+    // Collection: sms_logs (Top-Level)
+    // ===============================================================
+    match /sms_logs/{logId} {
+      // SMS logs contain resident phone numbers and SMS copy; strictly Admin-only audit access
+      allow read: if isAdmin();
+
+      // Append-only created by system/admin dispatchers
+      allow create: if isAdmin() && isValidSmsLog(request.resource.data);
+
+      // Immutability: No updates or deletions allowed
+      allow update, delete: if false;
+    }
+
+    // ===============================================================
+    // Collection: admins
+    // System Administrators, Barangay Secretary, and Clerks
+    // ===============================================================
+    match /admins/{adminId} {
+      // Reading admin records requires admin authentication
+      allow read: if isAdmin();
+
+      // Creation requires admin authority and strict schema validation
+      // Prevents unauthenticated writes or privilege escalation
+      allow create: if isAdmin() && isValidAdmin(request.resource.data);
+
+      // Updates require admin authority, valid schema, and immutable username/timestamps
+      allow update: if isAdmin() &&
+                       isValidAdmin(request.resource.data) &&
+                       areImmutableFieldsUnchanged(['username', 'created_at', 'createdAt']);
+
+      // Deletions allowed by admins, preventing self-deletion of currently active session
+      allow delete: if isAdmin() && request.auth.uid != adminId;
+    }
+  }
+}

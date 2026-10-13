@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Track Certificate Request | Barangay Concepcion, Valencia City</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            phblue: '#0038A8',
+            phred: '#CE1126',
+            phgold: '#FCD116',
+            brgygreen: '#15803D'
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="/css/custom.css">
+</head>
+<body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen">
+
+  <!-- Top Philippine Flag Accent Line -->
+  <div class="ph-flag-accent"></div>
+
+  <!-- Official Government Header Bar -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        <a href="/" class="flex items-center space-x-3.5 group">
+          <img src="/images/valencia-logo.png" alt="Valencia City Seal" class="w-12 h-12 object-contain drop-shadow-xs">
+          <img src="/images/brgy-logo.png" alt="Barangay Concepcion Seal" class="w-12 h-12 object-contain drop-shadow-xs">
+          <div>
+            <div class="text-[10px] uppercase font-bold tracking-wider text-slate-500 leading-tight">Republic of the Philippines • Bukidnon</div>
+            <div class="text-base sm:text-lg font-extrabold text-phblue tracking-tight leading-tight">BARANGAY CONCEPCION</div>
+            <div class="text-xs font-semibold text-slate-600">Document Tracking Portal</div>
+          </div>
+        </a>
+
+        <div class="flex items-center space-x-3">
+          <a href="/request" class="text-xs sm:text-sm font-semibold text-white bg-phblue hover:bg-blue-800 px-3.5 py-2 rounded-lg transition-colors">
+            <i class="fa-solid fa-plus mr-1"></i> New Request
+          </a>
+          <a href="/" class="text-xs sm:text-sm font-semibold text-slate-600 hover:text-slate-900 px-3 py-2 rounded-lg transition-colors">
+            <i class="fa-solid fa-house mr-1"></i> Home
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Tracking Container -->
+  <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full flex-grow">
+    
+    <!-- Hero / Prominent Search Section -->
+    <div class="text-center max-w-2xl mx-auto mb-8">
+      <div class="w-14 h-14 rounded-2xl bg-blue-100 text-phblue flex items-center justify-center text-2xl mx-auto mb-3 shadow-xs">
+        <i class="fa-solid fa-satellite-dish"></i>
+      </div>
+      <h1 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+        Track Your Certificate Request
+      </h1>
+      <p class="text-slate-600 text-xs sm:text-sm mt-1.5">
+        Enter the unique Control Tracking Number assigned to your application to view its real-time processing status and pickup schedules.
+      </p>
+    </div>
+
+    <!-- Prominent Input Card -->
+    <div class="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-md mb-8">
+      <form id="trackForm" class="space-y-4">
+        <div>
+          <label for="controlNumberInput" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">
+            Enter Your Unique Control Number <span class="text-red-500">*</span>
+          </label>
+          <div class="relative">
+            <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-slate-400 text-lg">
+              <i class="fa-solid fa-barcode"></i>
+            </span>
+            <input type="text" id="controlNumberInput" name="controlNumber" placeholder="BC-YYYYMMDD-XXXX (e.g. BC-20261014-8A4F)" required
+              class="w-full pl-12 pr-4 py-4 bg-slate-50 border-2 border-slate-300 focus:border-phblue rounded-2xl text-base sm:text-lg font-bold text-slate-900 placeholder-slate-400 focus:outline-hidden uppercase tracking-wider transition-colors">
+          </div>
+        </div>
+
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-1">
+          <div class="text-xs text-slate-500 flex items-center">
+            <i class="fa-solid fa-circle-question mr-1.5 text-phblue"></i>
+            Format: <code class="font-mono font-bold bg-slate-100 px-1.5 py-0.5 rounded text-phblue ml-1">BC-YYYYMMDD-XXXX</code>
+          </div>
+
+          <button type="submit" id="trackSubmitBtn" class="w-full sm:w-auto px-8 py-3.5 bg-phblue hover:bg-blue-800 text-white font-bold text-sm rounded-xl shadow-md transition-all flex items-center justify-center space-x-2">
+            <span id="trackBtnText">Search Status</span>
+            <i id="trackBtnIcon" class="fa-solid fa-magnifying-glass text-xs"></i>
+            <span id="trackBtnSpinner" class="hidden">
+              <i class="fa-solid fa-circle-notch fa-spin"></i>
+            </span>
+          </button>
+        </div>
+      </form>
+
+      <!-- Helpful Guidance Note -->
+      <div class="mt-5 pt-4 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-500">
+        <span class="flex items-center gap-1.5"><i class="fa-solid fa-mobile-screen text-phblue"></i> Your unique tracking number is sent via SMS upon application submission.</span>
+        <a href="/request" class="text-phblue hover:underline font-semibold flex items-center gap-1">Need a certificate? Apply here <i class="fa-solid fa-arrow-right text-[10px]"></i></a>
+      </div>
+    </div>
+
+    <!-- Error State Display -->
+    <div id="notFoundBox" class="hidden bg-white rounded-3xl border border-red-200 p-8 text-center shadow-md mb-8">
+      <div class="w-14 h-14 rounded-full bg-red-100 text-red-600 flex items-center justify-center text-2xl mx-auto mb-3">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+      </div>
+      <h3 class="text-lg font-bold text-slate-900 mb-1">No Record Found</h3>
+      <p id="notFoundMsg" class="text-xs sm:text-sm text-slate-600 max-w-md mx-auto mb-4">
+        We could not find any certificate request matching this Control Number. Please double-check your receipt or SMS confirmation.
+      </p>
+      <a href="/request" class="inline-flex items-center px-5 py-2.5 bg-phblue hover:bg-blue-800 text-white font-semibold text-xs rounded-xl transition-colors">
+        <i class="fa-solid fa-plus mr-1.5"></i> Submit New Application
+      </a>
+    </div>
+
+    <!-- Result / Tracking Details Display -->
+    <div id="resultContainer" class="hidden space-y-6">
+
+      <!-- Status Header Banner -->
+      <div class="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-md">
+        
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-6 border-b border-slate-100 gap-4">
+          <div>
+            <div class="text-[11px] font-bold uppercase tracking-wider text-slate-500">Official Tracking Record</div>
+            <h2 id="resControlNumber" class="text-2xl sm:text-3xl font-black text-phblue font-mono tracking-wider mt-0.5">
+              BC-XXXXXXXX-XXXX
+            </h2>
+            <div class="text-xs text-slate-500 mt-1">
+              Requested on: <span id="resCreatedAt" class="font-semibold text-slate-700">--</span>
+            </div>
+          </div>
+
+          <div>
+            <!-- Status Badge -->
+            <div id="resStatusBadge" class="inline-flex items-center space-x-2 px-4 py-2 rounded-xl text-sm font-extrabold shadow-2xs">
+              <span id="resStatusDot" class="w-2.5 h-2.5 rounded-full"></span>
+              <span id="resStatusText">Pending Review</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4-Stage Visual Timeline (Visible if NOT rejected) -->
+        <div id="visualTimeline" class="mt-8 mb-4">
+          <div class="text-xs font-bold uppercase tracking-wider text-slate-600 mb-6">Processing Progress</div>
+          
+          <div class="relative">
+            <!-- Connecting Line Background -->
+            <div class="absolute top-5 left-0 w-full h-1 bg-slate-200 -z-0"></div>
+            <!-- Progress Line Foreground -->
+            <div id="timelineProgressFill" class="absolute top-5 left-0 h-1 bg-phblue transition-all duration-500 -z-0" style="width: 25%;"></div>
+
+            <!-- Steps Grid -->
+            <div class="grid grid-cols-4 relative z-10 text-center">
+              
+              <!-- Step 1: Submitted -->
+              <div class="flex flex-col items-center">
+                <div id="step1Circle" class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm bg-phblue text-white ring-4 ring-white shadow-xs">
+                  <i class="fa-solid fa-file-arrow-up"></i>
+                </div>
+                <div class="text-xs font-bold mt-2 text-slate-800">1. Submitted</div>
+                <div class="text-[10px] text-slate-500">Pending Review</div>
+              </div>
+
+              <!-- Step 2: Processing -->
+              <div class="flex flex-col items-center">
+                <div id="step2Circle" class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm bg-slate-200 text-slate-500 ring-4 ring-white shadow-xs">
+                  <i class="fa-solid fa-gear"></i>
+                </div>
+                <div class="text-xs font-bold mt-2 text-slate-800">2. Processing</div>
+                <div class="text-[10px] text-slate-500">Document Verification</div>
+              </div>
+
+              <!-- Step 3: Ready for Pickup -->
+              <div class="flex flex-col items-center">
+                <div id="step3Circle" class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm bg-slate-200 text-slate-500 ring-4 ring-white shadow-xs">
+                  <i class="fa-solid fa-building-circle-check"></i>
+                </div>
+                <div class="text-xs font-bold mt-2 text-slate-800">3. Ready for Pickup</div>
+                <div class="text-[10px] text-slate-500">At Barangay Hall</div>
+              </div>
+
+              <!-- Step 4: Released -->
+              <div class="flex flex-col items-center">
+                <div id="step4Circle" class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm bg-slate-200 text-slate-500 ring-4 ring-white shadow-xs">
+                  <i class="fa-solid fa-circle-check"></i>
+                </div>
+                <div class="text-xs font-bold mt-2 text-slate-800">4. Released</div>
+                <div class="text-[10px] text-slate-500">Transaction Complete</div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- Rejection Notice (Visible only if status == Rejected) -->
+        <div id="rejectionNotice" class="hidden mt-6 p-5 bg-red-50 border-2 border-red-200 rounded-2xl text-red-900">
+          <div class="flex items-start space-x-3.5">
+            <i class="fa-solid fa-circle-xmark text-2xl text-red-600 mt-0.5"></i>
+            <div>
+              <h4 class="font-extrabold text-base text-red-950">Application Not Approved</h4>
+              <p class="text-xs text-red-800 mt-1">
+                <strong>Reason:</strong> <span id="rejectionReasonText">--</span>
+              </p>
+              <div class="text-[11px] text-red-700 mt-2 bg-white/70 p-2.5 rounded-lg border border-red-100">
+                <i class="fa-solid fa-circle-info mr-1"></i> What to do: Please visit Barangay Concepcion Hall with original valid documents or re-apply online with clear attachments.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ready for Pickup Callout Box (Visible only if status == Ready for Pickup) -->
+        <div id="pickupCallout" class="hidden mt-6 p-6 bg-emerald-50 border-2 border-emerald-300 rounded-2xl text-emerald-950">
+          <div class="flex items-start space-x-3.5">
+            <div class="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center text-xl shrink-0">
+              <i class="fa-solid fa-bullhorn"></i>
+            </div>
+            <div class="w-full">
+              <h4 class="font-black text-base text-emerald-950">Good News! Your Certificate is Ready for Pickup</h4>
+              <p class="text-xs text-emerald-800 mt-1">
+                You may now claim your document at Barangay Concepcion Hall during office hours.
+              </p>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-3 text-xs bg-white p-3.5 rounded-xl border border-emerald-200">
+                <div>
+                  <div class="text-[10px] font-bold uppercase text-slate-500">Claim Location</div>
+                  <div class="font-semibold text-slate-800">Barangay Hall, Purok 3, Concepcion, Valencia City</div>
+                </div>
+                <div>
+                  <div class="text-[10px] font-bold uppercase text-slate-500">Office Hours</div>
+                  <div class="font-semibold text-slate-800">Mon - Fri, 8:00 AM – 5:00 PM</div>
+                </div>
+              </div>
+
+              <div class="mt-3">
+                <div class="text-xs font-bold text-emerald-900 mb-1">What to Bring:</div>
+                <ul class="text-xs text-emerald-800 space-y-1 list-disc list-inside">
+                  <li>Original Valid Government / Student ID for identity verification</li>
+                  <li>Cedula (CTC) if not yet presented</li>
+                  <li>Applicable barangay fee (Certificates of Indigency are 100% FREE)</li>
+                  <li>Authorization letter with ID photocopy if claimed by representative</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Applicant and Details Card -->
+      <div class="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-md">
+        <h3 class="text-base font-bold text-slate-900 mb-4 pb-3 border-b border-slate-100 flex items-center">
+          <i class="fa-solid fa-address-card mr-2 text-phblue"></i>
+          Application Details
+        </h3>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs sm:text-sm">
+          <div>
+            <div class="text-[11px] font-bold uppercase text-slate-500">Applicant Full Name</div>
+            <div id="resFullName" class="font-bold text-slate-900 text-sm mt-0.5">--</div>
+          </div>
+
+          <div>
+            <div class="text-[11px] font-bold uppercase text-slate-500">Certificate Type</div>
+            <div id="resCertType" class="font-bold text-phblue text-sm mt-0.5">--</div>
+          </div>
+
+          <div>
+            <div class="text-[11px] font-bold uppercase text-slate-500">Address in Concepcion</div>
+            <div id="resPurok" class="font-semibold text-slate-800 mt-0.5">--</div>
+          </div>
+
+          <div>
+            <div class="text-[11px] font-bold uppercase text-slate-500">Mobile Contact Number</div>
+            <div id="resContact" class="font-semibold text-slate-800 mt-0.5 font-mono">--</div>
+          </div>
+
+          <div class="sm:col-span-2">
+            <div class="text-[11px] font-bold uppercase text-slate-500">Purpose of Request</div>
+            <div id="resPurpose" class="font-medium text-slate-800 mt-0.5 bg-slate-50 p-2.5 rounded-lg border border-slate-200">--</div>
+          </div>
+
+          <div class="sm:col-span-2">
+            <div class="text-[11px] font-bold uppercase text-slate-500">Staff Remarks / Notes</div>
+            <div id="resRemarks" class="font-medium text-slate-800 mt-0.5 bg-blue-50/60 p-2.5 rounded-lg border border-blue-200">--</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Audit History Timeline Log -->
+      <div class="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-md">
+        <h3 class="text-base font-bold text-slate-900 mb-4 pb-3 border-b border-slate-100 flex items-center">
+          <i class="fa-solid fa-clock-rotate-left mr-2 text-phblue"></i>
+          Audit History Trail
+        </h3>
+
+        <div id="auditTimelineList" class="space-y-4">
+          <!-- Dynamically inserted history steps -->
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-slate-900 border-t border-slate-800 text-slate-400 text-xs py-8 mt-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center space-x-3">
+        <img src="/images/brgy-logo.png" alt="Concepcion Logo" class="w-8 h-8 object-contain">
+        <div>
+          <div class="font-bold text-slate-200">Barangay Concepcion • City of Valencia, Bukidnon</div>
+          <div class="text-[11px] text-slate-500">Official Online Request and Tracking Portal</div>
+        </div>
+      </div>
+      <div>
+        <a href="/request" class="text-slate-300 hover:text-white mr-4">New Request</a>
+        <a href="/admin" class="text-slate-300 hover:text-white">Staff Login</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/track.js"></script>
+</body>
+</html>
+
