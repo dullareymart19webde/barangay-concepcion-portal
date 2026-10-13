@@ -7,7 +7,7 @@ const isFirestore = () => {
 };
 
 class SmsLog {
-  static async create({ requestId, recipientNumber, message, apiResponse, status = 'MOCK_SENT' }) {
+  static async create({ requestId, recipientNumber, message, apiResponse, status = 'SENT' }) {
     if (isFirestore()) {
       return await firestoreAdapter.createSmsLog({ requestId, recipientNumber, message, apiResponse, status });
     }

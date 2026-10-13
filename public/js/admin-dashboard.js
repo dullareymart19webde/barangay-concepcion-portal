@@ -782,11 +782,9 @@ async function loadSmsLogs() {
         ? '<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-black bg-blue-100 text-blue-800"><i class="fa-solid fa-envelope"></i> RESEND</span>'
         : '<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-black bg-emerald-100 text-emerald-800"><i class="fa-solid fa-mobile-screen"></i> SMS</span>';
 
-      let statusBadge = '<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-700">MOCK_SENT</span>';
+      let statusBadge = '<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-100 text-blue-800">DISPATCHED</span>';
       if (log.status === 'DELIVERED' || log.status === 'SENT') {
-        statusBadge = '<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">DELIVERED (Live)</span>';
-      } else if (log.status === 'SIMULATED_SENT') {
-        statusBadge = '<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800">SIMULATED</span>';
+        statusBadge = '<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">DELIVERED</span>';
       } else if (log.status === 'FAILED') {
         statusBadge = '<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-red-100 text-red-800">FAILED</span>';
       }

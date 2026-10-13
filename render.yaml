@@ -25,3 +25,4 @@ services:
         sync: false
       - key: JWT_SECRET
         value: barangay_concepcion_valencia_secure_jwt_token_2026_xyz
+

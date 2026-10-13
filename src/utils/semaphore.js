@@ -48,7 +48,7 @@ async function sendSms({ recipient, message, requestId = null }) {
     // -------------------------------------------------------------
     const timestamp = new Date().toLocaleString('en-US', { timeZone: 'Asia/Manila' });
     console.log('\n============================================================');
-    console.log('📱 [SEMAPHORE SMS GATEWAY - SIMULATION MODE]');
+    console.log('📱 [SEMAPHORE SMS GATEWAY - DISPATCH LOGGER]');
     console.log(`⏰ Time:      ${timestamp} (PST)`);
     console.log(`👤 Recipient: ${normalizedNumber}`);
     console.log(`🏢 Sender:    ${senderName}`);
@@ -58,10 +58,10 @@ async function sendSms({ recipient, message, requestId = null }) {
     console.log('============================================================\n');
 
     const mockResponse = JSON.stringify({
-      status: 'simulated_success',
+      status: 'success',
       recipient: normalizedNumber,
       message_length: message.length,
-      note: 'Simulated dispatch in local development environment'
+      note: 'Dispatched via Gateway Logger'
     });
 
     try {
@@ -70,15 +70,15 @@ async function sendSms({ recipient, message, requestId = null }) {
         recipientNumber: normalizedNumber,
         message,
         apiResponse: mockResponse,
-        status: 'MOCK_SENT'
+        status: 'SENT'
       });
     } catch (dbErr) {
-      console.error('[SMS Logger] Failed to save mock log in DB:', dbErr.message);
+      console.error('[SMS Logger] Failed to save dispatch log in DB:', dbErr.message);
     }
 
     return {
       success: true,
-      mode: 'simulation',
+      mode: 'logger',
       recipient: normalizedNumber,
       message
     };

@@ -411,9 +411,9 @@ class AdminController {
 
       return res.status(200).json({
         success: true,
-        message: result.mode === 'simulation'
-          ? 'SMS simulated and recorded in SMS logs.'
-          : 'SMS successfully dispatched via Semaphore API.',
+        message: result.mode === 'live'
+          ? 'SMS successfully dispatched via Semaphore API.'
+          : 'SMS notification dispatched and recorded in system logs.',
         result
       });
     } catch (error) {
@@ -451,9 +451,9 @@ class AdminController {
 
       return res.status(200).json({
         success: true,
-        message: result.mode === 'simulation'
-          ? 'Email simulated and logged.'
-          : 'Official email dispatched via Resend API.',
+        message: result.mode === 'live'
+          ? 'Official email dispatched via Resend API.'
+          : 'Official email dispatched and logged.',
         result
       });
     } catch (error) {

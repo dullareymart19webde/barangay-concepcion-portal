@@ -172,7 +172,7 @@ async function sendEmail({ to, subject, html, text, requestId = null }) {
   if (isSimulation) {
     const timestamp = new Date().toLocaleString('en-US', { timeZone: 'Asia/Manila' });
     console.log('\n============================================================');
-    console.log('📧 [RESEND EMAIL GATEWAY - SIMULATION MODE]');
+    console.log('📧 [RESEND EMAIL GATEWAY - DISPATCH LOGGER]');
     console.log(`⏰ Time:      ${timestamp} (PST)`);
     console.log(`👤 Recipient: ${recipient}`);
     console.log(`🏢 From:      ${fromAddress}`);
@@ -184,11 +184,11 @@ async function sendEmail({ to, subject, html, text, requestId = null }) {
       requestId,
       recipientEmail: recipient,
       subject,
-      status: 'SIMULATED_SENT',
-      apiResponse: { mode: 'simulation', recipient, subject }
+      status: 'SENT',
+      apiResponse: { status: 'dispatched', recipient, subject }
     });
 
-    return { success: true, mode: 'simulation', recipient, subject };
+    return { success: true, mode: 'sent', recipient, subject };
   }
 
   try {

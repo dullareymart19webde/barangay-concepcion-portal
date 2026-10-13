@@ -36,14 +36,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const resRemarks = document.getElementById('resRemarks');
   const auditTimelineList = document.getElementById('auditTimelineList');
 
-  // Handle Quick Sample Buttons
-  document.querySelectorAll('.quick-sample').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const ref = btn.getAttribute('data-ref');
-      controlInput.value = ref;
-      performTrack(ref);
-    });
-  });
 
   // Handle Form Submit
   trackForm.addEventListener('submit', (e) => {

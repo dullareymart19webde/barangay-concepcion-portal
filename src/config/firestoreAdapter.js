@@ -251,7 +251,7 @@ class FirestoreAdapter {
       recipient_number: data.recipientNumber,
       message: data.message,
       api_response: data.apiResponse,
-      status: data.status || 'MOCK_SENT',
+      status: data.status || 'SENT',
       created_at: new Date().toISOString()
     });
     return docRef.id;

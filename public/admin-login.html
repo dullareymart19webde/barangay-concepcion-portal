@@ -70,7 +70,7 @@
             <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
               <i class="fa-solid fa-envelope"></i>
             </span>
-            <input type="text" id="username" name="username" placeholder="e.g. concepcion66barangay@gmail.com" required
+            <input type="text" id="username" name="username" placeholder="Enter official email or staff username" required
               class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-semibold text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-phblue focus:border-transparent">
           </div>
         </div>
@@ -100,36 +100,10 @@
         </button>
       </form>
 
-      <!-- Quick Fill Credentials Card for Firebase Auth Accounts -->
-      <div class="mt-6 pt-5 border-t border-slate-100">
-        <div class="text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-2.5 flex items-center justify-between">
-          <span><i class="fa-solid fa-shield-halved mr-1 text-emerald-600"></i> Firebase Auth Accounts:</span>
-          <span class="text-[9px] text-slate-400 font-normal">Click to auto-fill</span>
-        </div>
-        
-        <div class="space-y-2">
-          <button type="button" id="fillOfficialEmail" class="w-full text-left p-2.5 bg-yellow-50/70 hover:bg-yellow-100 border border-yellow-200/80 rounded-xl transition-colors">
-            <div class="text-[11px] font-bold text-yellow-900 flex items-center justify-between">
-              <span>Official Barangay Email (Punong Barangay)</span>
-              <span class="text-[9px] bg-yellow-200/80 text-yellow-900 px-1.5 py-0.5 rounded-sm font-semibold">Admin</span>
-            </div>
-            <div class="text-[10px] text-slate-600 mt-0.5 font-mono">concepcion66barangay@gmail.com</div>
-          </button>
-
-          <div class="grid grid-cols-2 gap-2">
-            <button type="button" id="fillSecretary" class="text-left p-2.5 bg-blue-50 hover:bg-blue-100 border border-blue-200 rounded-xl transition-colors">
-              <div class="text-[11px] font-bold text-phblue">Barangay Secretary</div>
-              <div class="text-[10px] text-slate-600 truncate font-mono">secretary@...</div>
-              <div class="text-[9px] text-slate-500">Hon. Redin T. Butanas</div>
-            </button>
-
-            <button type="button" id="fillAdmin" class="text-left p-2.5 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-xl transition-colors">
-              <div class="text-[11px] font-bold text-slate-800">Barangay Admin</div>
-              <div class="text-[10px] text-slate-600 truncate font-mono">admin@...</div>
-              <div class="text-[9px] text-slate-500">Hon. Merlyn G. Antiga</div>
-            </button>
-          </div>
-        </div>
+      <!-- Official Security Badge -->
+      <div class="mt-6 pt-5 border-t border-slate-100 flex items-center justify-center space-x-2 text-xs text-slate-500 font-medium">
+        <i class="fa-solid fa-shield-halved text-emerald-600"></i>
+        <span>Authorized Barangay Officials & Staff Only</span>
       </div>
 
     </div>
@@ -169,22 +143,6 @@
           passwordInput.type = 'password';
           eyeIcon.classList.replace('fa-eye-slash', 'fa-eye');
         }
-      });
-
-      // Firebase Auth 1-Click quick fills
-      document.getElementById('fillOfficialEmail')?.addEventListener('click', () => {
-        usernameInput.value = 'concepcion66barangay@gmail.com';
-        passwordInput.value = 'BarangayOfficial2026!';
-      });
-
-      document.getElementById('fillSecretary')?.addEventListener('click', () => {
-        usernameInput.value = 'secretary@barangayconcepcion.gov.ph';
-        passwordInput.value = 'BarangaySecretary2026!';
-      });
-
-      document.getElementById('fillAdmin')?.addEventListener('click', () => {
-        usernameInput.value = 'admin@barangayconcepcion.gov.ph';
-        passwordInput.value = 'BarangayAdmin2026!';
       });
 
       // Form submission
