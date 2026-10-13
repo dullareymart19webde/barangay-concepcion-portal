@@ -19,12 +19,18 @@ try {
   if (process.env.FIREBASE_SERVICE_ACCOUNT_KEY && process.env.FIREBASE_SERVICE_ACCOUNT_KEY.trim().startsWith('{')) {
     try {
       serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT_KEY);
+      if (serviceAccount && serviceAccount.private_key) {
+        serviceAccount.private_key = serviceAccount.private_key.replace(/\\n/g, '\n');
+      }
     } catch (e) {
       console.warn('[Firebase] Could not parse FIREBASE_SERVICE_ACCOUNT_KEY as JSON string:', e.message);
     }
   } else if (process.env.FIREBASE_SERVICE_ACCOUNT_BASE64) {
     try {
       serviceAccount = JSON.parse(Buffer.from(process.env.FIREBASE_SERVICE_ACCOUNT_BASE64, 'base64').toString('utf8'));
+      if (serviceAccount && serviceAccount.private_key) {
+        serviceAccount.private_key = serviceAccount.private_key.replace(/\\n/g, '\n');
+      }
     } catch (e) {
       console.warn('[Firebase] Could not parse FIREBASE_SERVICE_ACCOUNT_BASE64:', e.message);
     }
