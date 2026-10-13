@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const fs = require('fs');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 require('dotenv').config();
@@ -17,8 +18,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-const PUBLIC_DIR = path.resolve(__dirname, '../public');
-const UPLOADS_DIR = path.resolve(__dirname, '../uploads');
+const PUBLIC_DIR = fs.existsSync(path.resolve(__dirname, '../public'))
+  ? path.resolve(__dirname, '../public')
+  : path.resolve(process.cwd(), 'public');
+
+const UPLOADS_DIR = process.env.VERCEL
+  ? path.resolve('/tmp/uploads')
+  : path.resolve(__dirname, '../uploads');
 
 // Serve static assets and uploaded IDs
 app.use(express.static(PUBLIC_DIR, { dotfiles: 'allow' }));
@@ -44,7 +50,15 @@ app.get('/api/health', (req, res) => {
 // Frontend Clean Route Aliases
 // -------------------------------------------------------------
 const sendHtml = (res, filename) => {
-  res.sendFile(filename, { root: PUBLIC_DIR, dotfiles: 'allow' });
+  const filePath = path.join(PUBLIC_DIR, filename);
+  if (fs.existsSync(filePath)) {
+    return res.sendFile(filePath);
+  }
+  const rootPath = path.join(process.cwd(), 'public', filename);
+  if (fs.existsSync(rootPath)) {
+    return res.sendFile(rootPath);
+  }
+  return res.redirect(`/${filename}`);
 };
 
 app.get('/track', (req, res) => {
