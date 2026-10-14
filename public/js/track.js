@@ -139,7 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (status === 'Ready for Pickup') {
         resStatusBadge.classList.add('bg-emerald-100', 'text-emerald-800', 'border', 'border-emerald-300');
-        resStatusDot.className = 'w-2.5 h-2.5 rounded-full bg-emerald-600 animate-pulse';
+        resStatusDot.className = 'w-2.5 h-2.5 rounded-full bg-emerald-600';
         pickupCallout.classList.remove('hidden');
       } else if (status === 'Released') {
         resStatusBadge.classList.add('bg-blue-100', 'text-phblue', 'border', 'border-blue-300');
@@ -147,7 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
         pickupCallout.classList.add('hidden');
       } else if (status === 'Processing') {
         resStatusBadge.classList.add('bg-amber-100', 'text-amber-800', 'border', 'border-amber-300');
-        resStatusDot.className = 'w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse';
+        resStatusDot.className = 'w-2.5 h-2.5 rounded-full bg-amber-500';
         pickupCallout.classList.add('hidden');
       } else {
         // Pending Review

@@ -792,8 +792,8 @@ async function loadSmsLogs() {
       tr.className = 'hover:bg-slate-50 transition-colors';
 
       let channelBadge = log.channel === 'EMAIL'
-        ? '<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-black bg-blue-100 text-blue-800"><i class="fa-solid fa-envelope"></i> RESEND</span>'
-        : '<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-black bg-emerald-100 text-emerald-800"><i class="fa-solid fa-mobile-screen"></i> SMS</span>';
+        ? '<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-100 text-blue-800"><i class="fa-solid fa-envelope"></i> EMAIL</span>'
+        : '<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800"><i class="fa-solid fa-mobile-screen"></i> SMS</span>';
 
       let statusBadge = '<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-100 text-blue-800">DISPATCHED</span>';
       if (log.status === 'DELIVERED' || log.status === 'SENT') {

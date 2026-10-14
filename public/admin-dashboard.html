@@ -46,10 +46,10 @@
           </div>
         </div>
 
-        <!-- Center: Live Cloud System Badge (Visible on medium+ screens) -->
-        <div class="hidden md:flex items-center space-x-2 bg-emerald-50 text-emerald-800 border border-emerald-200/80 px-3.5 py-1.5 rounded-full text-xs font-semibold shadow-2xs">
-          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-          <span>Cloud Firestore Live • Barangay Concepcion</span>
+        <!-- Center: Official Jurisdiction Badge (Visible on medium+ screens) -->
+        <div class="hidden md:flex items-center space-x-2 bg-slate-100 text-slate-700 border border-slate-200 px-3.5 py-1.5 rounded-lg text-xs font-semibold">
+          <i class="fa-solid fa-landmark text-phblue"></i>
+          <span>Barangay Concepcion • City of Valencia, Bukidnon</span>
         </div>
 
         <!-- Right: Current Admin Info & Actions -->
@@ -96,7 +96,7 @@
         <button type="button" id="tabBtnSms" class="tab-button border-b-2 border-transparent text-slate-500 hover:text-slate-800 py-4 px-2 flex items-center space-x-2 transition-colors whitespace-nowrap">
           <i class="fa-solid fa-envelope-circle-check text-base"></i>
           <span>Notification Logs</span>
-          <span class="bg-emerald-100 text-emerald-800 text-[10px] px-2 py-0.5 rounded-full font-bold ml-1">Resend & SMS</span>
+          <span class="bg-slate-100 text-slate-700 text-[10px] px-2 py-0.5 rounded-full font-bold ml-1">Email & SMS</span>
         </button>
       </div>
     </div>
@@ -114,10 +114,10 @@
       <div class="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-6 gap-3 sm:gap-4 xl:gap-5">
         
         <!-- Total -->
-        <div class="bg-white rounded-2xl border border-slate-200/90 p-4 sm:p-5 shadow-xs hover:shadow-md transition-all duration-200 hover:-translate-y-0.5">
+        <div class="bg-white rounded-xl border border-slate-200 p-4 sm:p-5 shadow-xs">
           <div class="flex items-center justify-between text-slate-400 mb-2 sm:mb-3">
             <span class="text-[11px] font-bold uppercase tracking-wider text-slate-500">Total Requests</span>
-            <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-slate-100 text-slate-600 flex items-center justify-center text-xs sm:text-sm">
+            <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-slate-100 text-slate-600 flex items-center justify-center text-xs sm:text-sm">
               <i class="fa-solid fa-layer-group"></i>
             </div>
           </div>
@@ -129,10 +129,10 @@
         </div>
 
         <!-- Pending Review -->
-        <div class="bg-white rounded-2xl border border-amber-200/90 p-4 sm:p-5 shadow-xs hover:shadow-md transition-all duration-200 hover:-translate-y-0.5 bg-gradient-to-b from-amber-50/40 to-white">
+        <div class="bg-white rounded-xl border border-amber-200 p-4 sm:p-5 shadow-xs">
           <div class="flex items-center justify-between text-amber-600 mb-2 sm:mb-3">
             <span class="text-[11px] font-bold uppercase tracking-wider text-amber-800">Pending</span>
-            <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center text-xs sm:text-sm">
+            <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-amber-50 text-amber-700 flex items-center justify-center text-xs sm:text-sm">
               <i class="fa-solid fa-hourglass-half"></i>
             </div>
           </div>
@@ -144,10 +144,10 @@
         </div>
 
         <!-- Processing -->
-        <div class="bg-white rounded-2xl border border-blue-200/90 p-4 sm:p-5 shadow-xs hover:shadow-md transition-all duration-200 hover:-translate-y-0.5 bg-gradient-to-b from-blue-50/40 to-white">
+        <div class="bg-white rounded-xl border border-blue-200 p-4 sm:p-5 shadow-xs">
           <div class="flex items-center justify-between text-blue-600 mb-2 sm:mb-3">
             <span class="text-[11px] font-bold uppercase tracking-wider text-phblue">Processing</span>
-            <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-blue-100 text-phblue flex items-center justify-center text-xs sm:text-sm">
+            <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-blue-50 text-phblue flex items-center justify-center text-xs sm:text-sm">
               <i class="fa-solid fa-spinner"></i>
             </div>
           </div>
@@ -159,10 +159,10 @@
         </div>
 
         <!-- Ready for Pickup -->
-        <div class="bg-white rounded-2xl border border-emerald-200/90 p-4 sm:p-5 shadow-xs hover:shadow-md transition-all duration-200 hover:-translate-y-0.5 bg-gradient-to-b from-emerald-50/40 to-white">
+        <div class="bg-white rounded-xl border border-emerald-200 p-4 sm:p-5 shadow-xs">
           <div class="flex items-center justify-between text-emerald-600 mb-2 sm:mb-3">
             <span class="text-[11px] font-bold uppercase tracking-wider text-emerald-800">Ready</span>
-            <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center text-xs sm:text-sm">
+            <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center text-xs sm:text-sm">
               <i class="fa-solid fa-building-circle-check"></i>
             </div>
           </div>
@@ -174,10 +174,10 @@
         </div>
 
         <!-- Released -->
-        <div class="bg-white rounded-2xl border border-indigo-200/90 p-4 sm:p-5 shadow-xs hover:shadow-md transition-all duration-200 hover:-translate-y-0.5 bg-gradient-to-b from-indigo-50/40 to-white">
+        <div class="bg-white rounded-xl border border-indigo-200 p-4 sm:p-5 shadow-xs">
           <div class="flex items-center justify-between text-indigo-600 mb-2 sm:mb-3">
             <span class="text-[11px] font-bold uppercase tracking-wider text-indigo-800">Released</span>
-            <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-indigo-100 text-indigo-700 flex items-center justify-center text-xs sm:text-sm">
+            <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-indigo-50 text-indigo-700 flex items-center justify-center text-xs sm:text-sm">
               <i class="fa-solid fa-circle-check"></i>
             </div>
           </div>
@@ -189,10 +189,10 @@
         </div>
 
         <!-- Today's Total -->
-        <div class="bg-white rounded-2xl border border-purple-200/90 p-4 sm:p-5 shadow-xs hover:shadow-md transition-all duration-200 hover:-translate-y-0.5 bg-gradient-to-b from-purple-50/40 to-white">
+        <div class="bg-white rounded-xl border border-purple-200 p-4 sm:p-5 shadow-xs">
           <div class="flex items-center justify-between text-purple-600 mb-2 sm:mb-3">
             <span class="text-[11px] font-bold uppercase tracking-wider text-purple-800">Filed Today</span>
-            <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center text-xs sm:text-sm">
+            <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-purple-50 text-purple-700 flex items-center justify-center text-xs sm:text-sm">
               <i class="fa-solid fa-calendar-day"></i>
             </div>
           </div>
@@ -209,7 +209,7 @@
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 xl:gap-8 items-stretch">
         
         <!-- Left: Distribution by Certificate Type Chart -->
-        <div class="lg:col-span-7 xl:col-span-7 bg-white rounded-3xl border border-slate-200/90 p-6 sm:p-8 shadow-xs flex flex-col justify-between">
+        <div class="lg:col-span-7 xl:col-span-7 bg-white rounded-xl border border-slate-200 p-6 sm:p-8 shadow-xs flex flex-col justify-between">
           <div>
             <div class="flex items-center justify-between mb-4 pb-4 border-b border-slate-100">
               <div>
@@ -230,7 +230,7 @@
           <div class="pt-4 mt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
             <span class="flex items-center gap-1.5 font-medium">
               <i class="fa-solid fa-circle-check text-emerald-500"></i>
-              Live Firestore count synchronized
+              Official records synchronized
             </span>
             <button type="button" onclick="loadOverviewMetrics()" class="hover:text-phblue font-bold flex items-center gap-1 transition-colors">
               <i class="fa-solid fa-arrows-rotate"></i> Refresh
@@ -239,7 +239,7 @@
         </div>
 
         <!-- Right: Status Proportion & Quick Actions -->
-        <div class="lg:col-span-5 xl:col-span-5 bg-white rounded-3xl border border-slate-200/90 p-6 sm:p-8 shadow-xs flex flex-col justify-between">
+        <div class="lg:col-span-5 xl:col-span-5 bg-white rounded-xl border border-slate-200 p-6 sm:p-8 shadow-xs flex flex-col justify-between">
           <div>
             <div class="flex items-center justify-between mb-4 pb-4 border-b border-slate-100">
               <div>
@@ -284,7 +284,7 @@
     <div id="tabContentRequests" class="hidden space-y-6">
       
       <!-- Filter Bar -->
-      <div class="bg-white rounded-3xl border border-slate-200/90 p-5 sm:p-6 shadow-xs">
+      <div class="bg-white rounded-xl border border-slate-200 p-5 sm:p-6 shadow-xs">
         <div class="grid grid-cols-1 sm:grid-cols-12 gap-3.5 items-center">
           
           <!-- Live Search Input -->
@@ -334,7 +334,7 @@
       </div>
 
       <!-- Requests Data Table Card -->
-      <div class="bg-white rounded-3xl border border-slate-200/90 shadow-xs overflow-hidden">
+      <div class="bg-white rounded-xl border border-slate-200 shadow-xs overflow-hidden">
         <div class="overflow-x-auto">
           <table class="w-full text-left text-xs text-slate-700">
             <thead class="bg-slate-50 text-[11px] uppercase font-bold text-slate-600 tracking-wider border-b border-slate-200">
@@ -392,26 +392,26 @@
     <div id="tabContentSms" class="hidden space-y-6">
       
       <!-- Top banner for Notification Gateway Info -->
-      <div class="bg-gradient-to-r from-slate-900 via-indigo-950 to-blue-900 text-white rounded-3xl p-6 sm:p-8 shadow-md flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div class="bg-slate-900 text-white rounded-xl p-6 sm:p-8 border border-slate-800 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <div class="flex items-center space-x-2 text-blue-300 text-xs font-bold uppercase tracking-wider mb-1.5">
+          <div class="flex items-center space-x-2 text-phgold text-xs font-bold uppercase tracking-wider mb-1.5">
             <i class="fa-solid fa-envelope-circle-check"></i>
-            <span>Resend Official Email API & SMS Gateway</span>
+            <span>Official Citizen Notification Records</span>
           </div>
           <h2 class="text-xl sm:text-2xl font-black">Citizen Email & Notification Logs</h2>
-          <p class="text-xs sm:text-sm text-blue-100 mt-1">
-            Every submission, approval, and pickup schedule automatically dispatches a verified branded email notification via Resend directly to the resident.
+          <p class="text-xs sm:text-sm text-slate-300 mt-1">
+            Every submission, approval, and pickup schedule automatically dispatches verified digital notices directly to the resident's registered email address and mobile phone.
           </p>
         </div>
 
-        <div class="bg-white/10 backdrop-blur-xs border border-white/20 px-5 py-3 rounded-2xl text-xs">
-          <div class="text-[10px] text-blue-200 uppercase font-bold tracking-wider">Gateway Sender</div>
-          <div class="text-sm font-extrabold text-white">Barangay Concepcion (Resend)</div>
+        <div class="bg-slate-800/80 border border-slate-700 px-5 py-3 rounded-xl text-xs">
+          <div class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Official Dispatch Channel</div>
+          <div class="text-sm font-extrabold text-white">Barangay Concepcion</div>
         </div>
       </div>
 
       <!-- SMS Logs Table -->
-      <div class="bg-white rounded-3xl border border-slate-200/90 shadow-xs overflow-hidden">
+      <div class="bg-white rounded-xl border border-slate-200 shadow-xs overflow-hidden">
         <div class="overflow-x-auto">
           <table class="w-full text-left text-xs text-slate-700">
             <thead class="bg-slate-50 text-[11px] uppercase font-bold text-slate-600 tracking-wider border-b border-slate-200">
@@ -438,8 +438,8 @@
   <!-- ============================================================== -->
   <!-- MODAL 1: VIEW DETAILS MODAL -->
   <!-- ============================================================== -->
-  <div id="viewModal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-slate-900/80 backdrop-blur-xs flex items-center justify-center p-4">
-    <div class="bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl border border-slate-100 max-h-[90vh] overflow-y-auto">
+  <div id="viewModal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-slate-900/75 flex items-center justify-center p-4">
+    <div class="bg-white rounded-xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl border border-slate-100 max-h-[90vh] overflow-y-auto">
       
       <div class="flex items-center justify-between pb-4 border-b border-slate-100">
         <div>
@@ -453,7 +453,7 @@
 
       <div class="space-y-6 mt-4">
         <!-- Applicant Details Grid -->
-        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 text-xs bg-slate-50 p-4 rounded-2xl border border-slate-200">
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 text-xs bg-slate-50 p-4 rounded-xl border border-slate-200">
           <div>
             <div class="text-[10px] uppercase text-slate-400 font-bold">Applicant Full Name</div>
             <div id="modalReqFullName" class="font-bold text-slate-900 mt-0.5">--</div>
@@ -475,7 +475,7 @@
             <div id="modalReqContact" class="font-medium text-slate-800 mt-0.5 font-mono">--</div>
           </div>
           <div>
-            <div class="text-[10px] uppercase text-slate-400 font-bold">Email Address (Resend)</div>
+            <div class="text-[10px] uppercase text-slate-400 font-bold">Citizen Email Address</div>
             <div id="modalReqEmail" class="font-medium text-blue-700 mt-0.5 truncate" title="Applicant email">--</div>
           </div>
           <div>
@@ -548,8 +548,8 @@
   <!-- ============================================================== -->
   <!-- MODAL 2: UPDATE STATUS MODAL -->
   <!-- ============================================================== -->
-  <div id="statusModal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-slate-900/80 backdrop-blur-xs flex items-center justify-center p-4">
-    <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-100">
+  <div id="statusModal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-slate-900/75 flex items-center justify-center p-4">
+    <div class="bg-white rounded-xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-100">
       
       <div class="flex items-center justify-between pb-3 border-b border-slate-100">
         <div>
@@ -594,14 +594,14 @@
             <input type="checkbox" id="sendSmsCheckbox" checked class="mt-0.5 w-5 h-5 text-phblue rounded border-2 border-phblue focus:ring-phblue cursor-pointer shrink-0 accent-phblue">
             <div class="text-xs text-slate-700 leading-tight">
               <strong class="font-bold text-phblue">Send Automated Email & SMS Notification</strong><br/>
-              <span class="text-[11px] text-slate-600">Dispatches an instant official email receipt via Resend and SMS notification to the resident.</span>
+              <span class="text-[11px] text-slate-600">Dispatches an instant official digital receipt and notification advisory directly to the resident.</span>
             </div>
           </label>
 
           <!-- Recipient Email Indicator -->
           <div class="mt-2 text-xs bg-white/90 p-2 rounded-lg border border-blue-200 flex items-center justify-between">
             <span class="text-slate-500 font-medium flex items-center gap-1.5">
-              <i class="fa-solid fa-envelope text-phblue"></i> Recipient Email (Resend):
+              <i class="fa-solid fa-envelope text-phblue"></i> Recipient Email Address:
             </span>
             <span id="statusModalEmailDisplay" class="font-bold text-phblue truncate max-w-[240px]">--</span>
           </div>
@@ -632,8 +632,8 @@
   <!-- ============================================================== -->
   <!-- MODAL 3: MANUAL QUICK SMS MODAL -->
   <!-- ============================================================== -->
-  <div id="manualSmsModal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-slate-900/80 backdrop-blur-xs flex items-center justify-center p-4">
-    <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-100">
+  <div id="manualSmsModal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-slate-900/75 flex items-center justify-center p-4">
+    <div class="bg-white rounded-xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-100">
       
       <div class="flex items-center justify-between pb-3 border-b border-slate-100">
         <div class="flex items-center space-x-2 text-phblue font-bold text-sm">
