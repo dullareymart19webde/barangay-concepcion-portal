@@ -344,15 +344,26 @@
       </div>
 
       <!-- Section 5: Data Privacy Consent -->
-      <div class="bg-blue-50 border border-blue-200 rounded-2xl p-6 sm:p-8">
-        <div class="flex items-start space-x-3.5">
-          <input type="checkbox" id="privacyConsent" name="privacyConsent" value="true" required
-            class="mt-1 w-4 h-4 text-phblue rounded border-slate-300 focus:ring-phblue">
-          <label for="privacyConsent" class="text-xs text-slate-700 leading-relaxed cursor-pointer select-none">
-            <strong class="font-bold text-slate-900">Republic Act No. 10173 (Data Privacy Act of 2012) Consent:</strong><br/>
-            I hereby certify that all information supplied in this online application is true, accurate, and correct to the best of my knowledge. I authorize the Barangay Government of Concepcion, Valencia City, to collect and process my personal data solely for the verification, issuance, and recording of the requested barangay certificate.
-          </label>
-        </div>
+      <div class="bg-gradient-to-r from-blue-50 via-indigo-50/40 to-blue-50 border-2 border-blue-200 hover:border-phblue rounded-2xl p-5 sm:p-7 shadow-xs transition-colors">
+        <label for="privacyConsent" class="flex items-start space-x-3.5 sm:space-x-4 cursor-pointer select-none group">
+          <div class="shrink-0 mt-0.5">
+            <input type="checkbox" id="privacyConsent" name="privacyConsent" value="true" required
+              class="w-6 h-6 text-phblue rounded-md border-2 border-phblue focus:ring-2 focus:ring-phblue cursor-pointer accent-phblue shadow-xs">
+          </div>
+          <div class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+            <div class="flex items-center space-x-2 text-slate-900 font-extrabold text-sm mb-1.5">
+              <i class="fa-solid fa-shield-halved text-phblue text-base"></i>
+              <span>Republic Act No. 10173 (Data Privacy Act of 2012) Consent <span class="text-red-500">*</span></span>
+            </div>
+            <p class="text-slate-600 text-xs sm:text-sm">
+              I hereby certify that all information supplied in this online application is true, accurate, and correct to the best of my knowledge. I authorize the Barangay Government of Concepcion, Valencia City, to collect and process my personal data solely for the verification, issuance, and recording of the requested barangay certificate.
+            </p>
+            <div class="mt-2 text-xs font-bold text-phblue flex items-center gap-1.5 group-hover:text-blue-800">
+              <i class="fa-regular fa-square-check text-sm"></i>
+              <span>Click or tap here to check this box and agree to Data Privacy Terms</span>
+            </div>
+          </div>
+        </label>
       </div>
 
       <!-- Submit Button -->
