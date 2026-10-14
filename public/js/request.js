@@ -114,9 +114,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const visualCheckbox = document.getElementById('visualCheckbox');
   const visualCheckIcon = document.getElementById('visualCheckIcon');
   const consentCard = document.getElementById('consentCard');
-  const consentStatusText = document.getElementById('consentStatusText');
-  const consentStatusIndicator = document.getElementById('consentStatusIndicator');
-  const consentStatusLabel = document.getElementById('consentStatusLabel');
 
   function updateConsentDisplay() {
     if (!privacyConsent || !visualCheckbox) return;
@@ -128,30 +125,12 @@ document.addEventListener('DOMContentLoaded', () => {
         consentCard.classList.remove('border-blue-200', 'border-red-400', 'bg-red-50/50');
         consentCard.classList.add('border-phblue', 'ring-2', 'ring-blue-100');
       }
-      if (consentStatusText) {
-        consentStatusText.className = 'mt-2.5 text-xs font-bold text-emerald-700 flex items-center gap-1.5 transition-colors';
-      }
-      if (consentStatusIndicator) {
-        consentStatusIndicator.className = 'hidden';
-      }
-      if (consentStatusLabel) {
-        consentStatusLabel.innerHTML = '<i class="fa-solid fa-circle-check text-emerald-600 text-sm"></i> <span>Agreed & Confirmed to Data Privacy Terms</span>';
-      }
     } else {
       visualCheckbox.className = 'w-6 h-6 rounded-md border-2 border-slate-400 bg-white flex items-center justify-center shrink-0 mt-0.5 shadow-2xs transition-all hover:border-phblue';
       if (visualCheckIcon) visualCheckIcon.classList.add('hidden');
       if (consentCard) {
         consentCard.classList.remove('border-phblue', 'ring-2', 'ring-blue-100');
         consentCard.classList.add('border-blue-200');
-      }
-      if (consentStatusText) {
-        consentStatusText.className = 'mt-2.5 text-xs font-semibold text-slate-500 flex items-center gap-1.5 transition-colors';
-      }
-      if (consentStatusIndicator) {
-        consentStatusIndicator.className = 'inline-block w-3.5 h-3.5 border-2 border-slate-400 rounded-xs';
-      }
-      if (consentStatusLabel) {
-        consentStatusLabel.textContent = 'Click here to agree and confirm Data Privacy Terms (Required)';
       }
     }
   }
