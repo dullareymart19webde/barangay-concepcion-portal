@@ -7,6 +7,7 @@
     "start": "node src/server.js",
     "dev": "node --watch src/server.js",
     "seed": "node src/utils/seedRunner.js",
+    "clean-db": "node src/utils/cleanDatabase.js",
     "test": "node src/utils/testRunner.js"
   },
   "keywords": [],
