@@ -84,6 +84,23 @@ async function runTests() {
     const testControlNo = submitRes.body.controlNumber;
     const testReqId = submitRes.body.data.id;
 
+    // 2b. Attempt to submit DUPLICATE request for the EXACT SAME document (Barangay Clearance)
+    const duplicateRes = await request({ path: '/api/requests', method: 'POST' }, newReqPayload);
+    assert(duplicateRes.status === 409, 'Duplicate request for same active document returns 409 Conflict');
+    assert(duplicateRes.body.success === false, 'Duplicate response success is false');
+    assert(duplicateRes.body.code === 'DUPLICATE_ACTIVE_REQUEST', 'Duplicate error code is DUPLICATE_ACTIVE_REQUEST');
+    assert(duplicateRes.body.existingControlNumber === testControlNo, `Existing active control number returned: ${duplicateRes.body.existingControlNumber}`);
+
+    // 2c. Submit request for a DIFFERENT document (Certificate of Residency) by the same applicant
+    const differentDocPayload = {
+      ...newReqPayload,
+      certType: 'Certificate of Residency',
+      purpose: 'Bank Account Opening Requirements'
+    };
+    const diffDocRes = await request({ path: '/api/requests', method: 'POST' }, differentDocPayload);
+    assert(diffDocRes.status === 201, 'Request for DIFFERENT document type while another is active returns 201 Created');
+    assert(diffDocRes.body.success === true, 'Different document request succeeds (Multi-document filing allowed)');
+
     // 3. Track request
     const trackRes = await request({ path: `/api/track/${testControlNo}`, method: 'GET' });
     assert(trackRes.status === 200, 'GET /api/track/:controlNumber returns 200 OK');

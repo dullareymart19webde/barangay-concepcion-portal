@@ -38,6 +38,33 @@ class RequestController {
         validIdPath = `/uploads/valid_ids/${req.file.filename}`;
       }
 
+      const normalizedPhone = normalizePhoneNumber(contactNumber);
+
+      // Business Rule: Prevent duplicate requests for the exact same document type while active
+      // (Requests for DIFFERENT document types are permitted concurrently).
+      const activeDuplicate = await Request.findActiveDuplicate({
+        firstName,
+        lastName,
+        certType,
+        contactNumber: normalizedPhone,
+        email,
+        birthDate
+      });
+
+      if (activeDuplicate) {
+        return res.status(409).json({
+          success: false,
+          code: 'DUPLICATE_ACTIVE_REQUEST',
+          message: `You currently have an active application for ${certType} under Control No. ${activeDuplicate.control_number} (Status: ${activeDuplicate.status}). Duplicate submissions for the same certificate are not permitted while an existing request is in progress.`,
+          errors: [
+            `You already have an active request for ${certType} (Control No: ${activeDuplicate.control_number}, Status: ${activeDuplicate.status}). Please wait for this application to be released or processed before requesting it again.`
+          ],
+          existingControlNumber: activeDuplicate.control_number,
+          existingStatus: activeDuplicate.status,
+          certType: activeDuplicate.cert_type
+        });
+      }
+
       // Generate unique control number: BC-YYYYMMDD-XXXX
       let controlNumber = generateControlNumber();
       // Ensure uniqueness defensively
@@ -48,8 +75,6 @@ class RequestController {
         existing = await Request.findByControlNumber(controlNumber);
         attempts++;
       }
-
-      const normalizedPhone = normalizePhoneNumber(contactNumber);
 
       const requestId = await Request.create({
         controlNumber,

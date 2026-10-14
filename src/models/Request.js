@@ -94,6 +94,55 @@ class Request {
     );
   }
 
+  /**
+   * Finds an active, in-progress request for the same document type by the same applicant.
+   * Prevents duplicate requests for the same certificate while allowing different certificate types.
+   */
+  static async findActiveDuplicate({ firstName, lastName, certType, contactNumber, email, birthDate }) {
+    if (isFirestore()) {
+      return await firestoreAdapter.findActiveDuplicateRequest({
+        firstName,
+        lastName,
+        certType,
+        contactNumber,
+        email,
+        birthDate
+      });
+    }
+
+    const cleanFirst = firstName ? String(firstName).trim() : '';
+    const cleanLast = lastName ? String(lastName).trim() : '';
+    const cleanCert = certType ? String(certType).trim() : '';
+    const cleanPhone = contactNumber ? String(contactNumber).trim() : '';
+    const cleanEmail = email ? String(email).trim().toLowerCase() : '';
+    const cleanBirth = birthDate ? String(birthDate).trim() : '';
+
+    const sql = `
+      SELECT * FROM requests 
+      WHERE cert_type = ?
+        AND status IN ('Pending Review', 'Processing', 'Ready for Pickup')
+        AND UPPER(TRIM(first_name)) = UPPER(TRIM(?))
+        AND UPPER(TRIM(last_name)) = UPPER(TRIM(?))
+        AND (
+          (? != '' AND contact_number = ?)
+          OR (? != '' AND email IS NOT NULL AND LOWER(TRIM(email)) = ?)
+          OR (? != '' AND birth_date IS NOT NULL AND birth_date = ?)
+          OR 1 = 1
+        )
+      ORDER BY created_at DESC
+      LIMIT 1
+    `;
+
+    return await db.queryOne(sql, [
+      cleanCert,
+      cleanFirst,
+      cleanLast,
+      cleanPhone, cleanPhone,
+      cleanEmail, cleanEmail,
+      cleanBirth, cleanBirth
+    ]);
+  }
+
   static async findAll({
     status = '',
     certType = '',

@@ -204,8 +204,12 @@ document.addEventListener('DOMContentLoaded', () => {
       const result = await response.json();
 
       if (!response.ok || !result.success) {
-        const errorMessages = result.errors || [result.message || 'Submission failed. Please verify your details.'];
-        showErrors(errorMessages);
+        if (result.code === 'DUPLICATE_ACTIVE_REQUEST' && result.existingControlNumber) {
+          showDuplicateWarning(result);
+        } else {
+          const errorMessages = result.errors || [result.message || 'Submission failed. Please verify your details.'];
+          showErrors(errorMessages);
+        }
         window.scrollTo({ top: errorAlert.offsetTop - 100, behavior: 'smooth' });
         setLoading(false);
         return;
@@ -237,6 +241,10 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function showErrors(messages) {
+    const errorAlertTitle = document.getElementById('errorAlertTitle');
+    if (errorAlertTitle) {
+      errorAlertTitle.textContent = 'Please correct the following errors:';
+    }
     errorList.innerHTML = '';
     messages.forEach(msg => {
       const li = document.createElement('li');
@@ -246,9 +254,39 @@ document.addEventListener('DOMContentLoaded', () => {
     errorAlert.classList.remove('hidden');
   }
 
+  function showDuplicateWarning(data) {
+    const errorAlertTitle = document.getElementById('errorAlertTitle');
+    if (errorAlertTitle) {
+      errorAlertTitle.textContent = 'Active Application Already In Progress:';
+    }
+    errorList.innerHTML = `
+      <li class="list-none mb-1">
+        <p class="font-semibold text-slate-800">${data.message || data.errors[0]}</p>
+        <div class="mt-3 p-3.5 bg-white rounded-xl border border-red-200 shadow-2xs flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+          <div>
+            <div class="text-[10px] uppercase font-bold text-slate-500">Active Control Tracking Number</div>
+            <div class="font-mono font-black text-sm text-phblue mt-0.5">${data.existingControlNumber}</div>
+            <div class="text-[11px] text-slate-600 mt-0.5">Current Status: <strong class="text-amber-700 font-bold">${data.existingStatus || 'In Progress'}</strong></div>
+          </div>
+          <a href="/track.html?ref=${encodeURIComponent(data.existingControlNumber)}" class="inline-flex items-center justify-center px-4 py-2 bg-phblue hover:bg-blue-800 text-white font-bold rounded-lg shadow-xs transition-colors whitespace-nowrap">
+            <i class="fa-solid fa-magnifying-glass mr-1.5"></i> Track Application
+          </a>
+        </div>
+        <p class="text-[11px] text-slate-600 mt-2 font-medium">
+          <i class="fa-solid fa-circle-info text-phblue mr-1"></i> Note: If you require a different certificate (e.g. Certificate of Residency or Indigency), you may select that document above and proceed with filing.
+        </p>
+      </li>
+    `;
+    errorAlert.classList.remove('hidden');
+  }
+
   function hideErrors() {
     errorAlert.classList.add('hidden');
     errorList.innerHTML = '';
+    const errorAlertTitle = document.getElementById('errorAlertTitle');
+    if (errorAlertTitle) {
+      errorAlertTitle.textContent = 'Please correct the following errors:';
+    }
   }
 
   function displaySuccess(data) {

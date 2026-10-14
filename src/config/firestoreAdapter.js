@@ -113,6 +113,53 @@ class FirestoreAdapter {
     return await this.findRequestByControlNumber(id);
   }
 
+  /**
+   * Checks if an applicant already has an active, uncompleted request for the same document type.
+   * Active statuses: 'Pending Review', 'Processing', 'Ready for Pickup'.
+   */
+  async findActiveDuplicateRequest({ firstName, lastName, certType, contactNumber, email, birthDate }) {
+    const db = this.getDb();
+    const cleanFirst = firstName ? String(firstName).trim().toLowerCase() : '';
+    const cleanLast = lastName ? String(lastName).trim().toLowerCase() : '';
+    const cleanCert = certType ? String(certType).trim() : '';
+    const cleanEmail = email ? String(email).trim().toLowerCase() : '';
+    const cleanPhone = contactNumber ? String(contactNumber).trim() : '';
+    const cleanBirth = birthDate ? String(birthDate).trim() : '';
+
+    const activeStatuses = ['Pending Review', 'Processing', 'Ready for Pickup'];
+
+    // Query requests with the exact same certificate type
+    const snapshot = await db.collection('requests')
+      .where('cert_type', '==', cleanCert)
+      .get();
+
+    for (const doc of snapshot.docs) {
+      const data = doc.data();
+      if (!activeStatuses.includes(data.status)) {
+        continue;
+      }
+
+      const docFirst = (data.first_name || '').trim().toLowerCase();
+      const docLast = (data.last_name || '').trim().toLowerCase();
+
+      // Check if applicant identity matches (same first and last name)
+      if (docFirst === cleanFirst && docLast === cleanLast) {
+        // Match verified if either phone, email, birth date matches, or exact full name matches
+        const phoneMatches = cleanPhone && data.contact_number && (data.contact_number === cleanPhone);
+        const emailMatches = cleanEmail && data.email && (data.email.toLowerCase() === cleanEmail);
+        const birthMatches = cleanBirth && data.birth_date && (data.birth_date === cleanBirth);
+
+        if (phoneMatches || emailMatches || birthMatches || (!cleanPhone && !cleanEmail)) {
+          return { id: doc.id, ...data };
+        }
+        // If both names match exactly and there is no contradiction
+        return { id: doc.id, ...data };
+      }
+    }
+
+    return null;
+  }
+
   async findRequests({ status, certType, search, page = 1, limit = 10 } = {}) {
     const db = this.getDb();
     let query = db.collection('requests');
