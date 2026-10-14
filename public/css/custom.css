@@ -66,18 +66,21 @@ input[type="checkbox"] {
 }
 
 #privacyConsent {
-  width: 22px !important;
-  height: 22px !important;
-  min-width: 22px !important;
-  min-height: 22px !important;
-  accent-color: #0038A8 !important;
-  border: 2px solid #0038A8 !important;
-  border-radius: 6px !important;
-  cursor: pointer !important;
-  display: block !important;
-  opacity: 1 !important;
-  visibility: visible !important;
-  margin-top: 3px !important;
+  position: absolute !important;
+  opacity: 0 !important;
+  width: 1px !important;
+  height: 1px !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border-width: 0 !important;
+}
+
+#visualCheckbox {
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  user-select: none;
 }
 
 #sendSmsCheckbox {

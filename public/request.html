@@ -344,12 +344,16 @@
       </div>
 
       <!-- Section 5: Data Privacy Consent -->
-      <div class="bg-gradient-to-r from-blue-50 via-indigo-50/40 to-blue-50 border-2 border-blue-200 hover:border-phblue rounded-2xl p-5 sm:p-7 shadow-xs transition-colors">
-        <label for="privacyConsent" class="flex items-start space-x-3.5 sm:space-x-4 cursor-pointer select-none group">
-          <div class="shrink-0 mt-0.5">
-            <input type="checkbox" id="privacyConsent" name="privacyConsent" value="true" required
-              class="w-6 h-6 text-phblue rounded-md border-2 border-phblue focus:ring-2 focus:ring-phblue cursor-pointer accent-phblue shadow-xs">
+      <div id="consentCard" class="bg-gradient-to-r from-blue-50 via-indigo-50/40 to-blue-50 border-2 border-blue-200 hover:border-phblue rounded-2xl p-5 sm:p-7 shadow-xs transition-all cursor-pointer">
+        <label for="privacyConsent" class="flex items-start space-x-3.5 sm:space-x-4 cursor-pointer select-none">
+          <!-- Actual Form Checkbox (accessible, toggled by label) -->
+          <input type="checkbox" id="privacyConsent" name="privacyConsent" value="true" required class="sr-only">
+          
+          <!-- Interactive Visual Checkbox (Empty when unchecked, checked with checkmark when clicked) -->
+          <div id="visualCheckbox" class="w-6 h-6 rounded-md border-2 border-slate-400 bg-white flex items-center justify-center shrink-0 mt-0.5 shadow-2xs transition-all hover:border-phblue">
+            <i id="visualCheckIcon" class="fa-solid fa-check text-white text-xs hidden"></i>
           </div>
+
           <div class="text-xs sm:text-sm text-slate-700 leading-relaxed">
             <div class="flex items-center space-x-2 text-slate-900 font-extrabold text-sm mb-1.5">
               <i class="fa-solid fa-shield-halved text-phblue text-base"></i>
@@ -358,9 +362,9 @@
             <p class="text-slate-600 text-xs sm:text-sm">
               I hereby certify that all information supplied in this online application is true, accurate, and correct to the best of my knowledge. I authorize the Barangay Government of Concepcion, Valencia City, to collect and process my personal data solely for the verification, issuance, and recording of the requested barangay certificate.
             </p>
-            <div class="mt-2 text-xs font-bold text-phblue flex items-center gap-1.5 group-hover:text-blue-800">
-              <i class="fa-regular fa-square-check text-sm"></i>
-              <span>Click or tap here to check this box and agree to Data Privacy Terms</span>
+            <div id="consentStatusText" class="mt-2.5 text-xs font-semibold text-slate-500 flex items-center gap-1.5 transition-colors">
+              <span id="consentStatusIndicator" class="inline-block w-3.5 h-3.5 border-2 border-slate-400 rounded-xs"></span>
+              <span id="consentStatusLabel">Click here to agree and confirm Data Privacy Terms (Required)</span>
             </div>
           </div>
         </label>
